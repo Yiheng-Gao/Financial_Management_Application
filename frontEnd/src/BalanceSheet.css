@@ -1,0 +1,74 @@
+/* BalanceSheet.css */
+
+.balance-sheet-container {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  background-color: #fff;
+  color: #333;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin: 20px;
+}
+
+.balance-sheet-container h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.balance-sheet-container table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.balance-sheet-container th,
+.balance-sheet-container td {
+  text-align: left;
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+}
+
+.balance-sheet-container th {
+  background-color: #f2f2f2;
+}
+
+/* For the header section with 'Basis' and 'As of' */
+.header-section {
+  text-align: right;
+  margin-bottom: 20px;
+}
+
+.header-section .basis,
+.header-section .as-of {
+  margin: 5px 0;
+}
+
+/* For the company name */
+.company-name {
+  font-size: 28px;
+  font-weight: bold;
+  text-align: center;
+  margin: 20px 0;
+}
+
+/* For the 'Add Temporary Note' button */
+.add-temp-note-btn {
+  display: block;
+  text-align: right;
+  margin: 20px 0;
+}
+
+.add-temp-note-btn button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.add-temp-note-btn button:hover {
+  background-color: #0056b3;
+}

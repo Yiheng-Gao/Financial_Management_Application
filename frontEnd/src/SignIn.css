@@ -1,0 +1,111 @@
+/* SignIn.css */
+
+body {
+  display: grid;
+  place-items: center; /* Center both horizontally and vertically */
+  min-height: 100vh; /* Full viewport height */
+  margin: 0; /* Remove default margin */
+  background-color: #e0e0e0; 
+}
+
+.page {
+  font-family: Arial, sans-serif;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  border-radius: 5px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #007BFF;
+  margin-bottom: 20px;
+}
+
+.logo {
+  max-width: 150px;
+  height: auto;
+}
+
+.welcome-text {
+  font-size: 20px;
+  padding: 20px 0;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-container label {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.form-container input,
+.form-container select {
+  width: 100%; /* Set width to fill the container */
+  padding: 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  font-size: 16px;
+  margin-top: 5px;
+  box-sizing: border-box; /* Include padding and border in the element's total width */
+}
+
+.form-container button:not(.show-password-button) {
+  width: 100%; /* Set width to fill the container */
+  margin-top: 20px;
+  padding: 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  font-size: 16px;
+  background-color: #007BFF;
+  color: #fff;
+  cursor: pointer;
+}
+
+.form-container button:not(.show-password-button):hover {
+  background-color: #0056b3;
+}
+
+.error-message {
+  color: red;
+  margin: 10px 0;
+  font-weight: bold;
+}
+
+.password-container {
+  position: relative; /* Set the password container's position to relative */
+  display: flex; /* Use flexbox for alignment */
+}
+
+.password-container input {
+  flex-grow: 1; /* Allows input to fill the space */
+  padding-right: 45px; /* Make padding larger to make space for the button */
+}
+
+.show-password-button {
+  position: absolute; /* Position it absolutely to sit on top of the input field */
+  right: 0px; /* Adjust this value based on the padding of the input field */
+  top: 5px; /* Adjust top to align it centered with the input field */
+  padding: 12px;
+  border: none;
+  background-color: #007BFF;
+  color: white;
+  cursor: pointer;
+  text-align: center;
+  box-sizing: border-box;
+  outline: none; /* Remove outline for consistency */
+  min-width: 75px; /* Set a minimum width for the button */
+  height: 40px; /* Set a fixed height for the button */
+  border-radius: 5px; /* Optional: Adds rounded corners to the button */
+}
+
+.show-password-button:hover {
+  background-color: #0056b3;
+}

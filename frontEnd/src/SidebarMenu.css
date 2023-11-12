@@ -1,0 +1,48 @@
+/* Retain the basic styles for the sidebar but modify the height */
+.sidebar-menu {
+  width: 250px;
+  height: calc(100vh - 60px); /* 100vh represents the full viewport height. 60px is assumed header height. Adjust if different. */
+  background-color: #007BFF;
+  padding: 15px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+  position: fixed; /* This ensures the sidebar stays in place */
+  top: 60px; /* Offset by the header height */
+  left: 0;
+}
+
+.sidebar-header {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 25px;
+}
+
+.menu-item {
+  font-size: 16px;
+  padding: 10px 0;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.sub-menu {
+  padding-left: 15px;
+  border-left: 2px solid #ccc;
+}
+
+.sub-menu-item {
+  padding: 5px 0;
+  cursor: pointer; /* Ensures the cursor changes to a hand when hovering over the sub-menu-item */
+  transition: background-color 0.3s; /* Smooth transition for background-color change */
+}
+
+.sub-menu-item:hover {
+  background-color: #e0e0e0; /* The background color of the sub-menu-item changes when hovered */
+}
+
+.arrow {
+  float: right;        /* Positions the arrow to the right */
+  transition: transform 0.3s; /* Smooth transition for rotation */
+}
+
+.arrow.open {
+  transform: rotate(90deg); /* Rotates the arrow 90 degrees to point downwards */
+}
