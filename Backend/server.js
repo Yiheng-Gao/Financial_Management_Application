@@ -35,6 +35,17 @@ app.get('/balance-sheet', (req, res) => {
   });
 });
 
+app.get('/income-statement', (req, res) => {
+  const sql = "SELECT AccountTypeName, AccountName, acctotalamount FROM balancesheetc"; // Modify according to your table structure
+  db.query(sql, (err, data) => {
+      if (err) {
+        return res.json(err);
+      } else {
+         return res.json(data);
+      }
+  });
+});
+
 
 app.listen(8081, () => {
   console.log("listening");

@@ -1,27 +1,46 @@
 import React from 'react';
 import './MainPage.css';
 import SidebarMenu from './SidebarMenu';
-import BalanceSheet from './BalanceSheet'; // Import BalanceSheet here
+import BalanceSheet from './BalanceSheet'; 
+import IncomeStatement from './IncomeStatement';
 
 class MainPage extends React.Component {
   state = {
-    showBalanceSheet: false, // Add state to manage the visibility of the Balance Sheet
-    // Other state variables as needed...
+    currentPage: null,
+   
     balanceSheetData: {
+      companyName: 'abc inc',
+      accounts: []
+    },
+    
+    incomeStatementData: {
       companyName: 'abc inc',
       accounts: []
     },
   };
 
+  setCurrentPage = (page) => {
+    this.setState({ currentPage: page });
+  };
+
   // Method to toggle the Balance Sheet
   toggleBalanceSheet = () => {
     this.setState(prevState => ({
-      showBalanceSheet: !prevState.showBalanceSheet
+      showBalanceSheet: !prevState.showBalanceSheet,
+      showIncomeStatement: false
+    }));
+  };
+
+  toggleIncomeStatement = () => {
+    this.setState(prevState => ({
+      showIncomeStatement: !prevState.showIncomeStatement,
+      showBalanceSheet: false
     }));
   };
 
   componentDidMount() {
     this.fetchBalanceSheetData();
+    this.fetchIncomeStatementData();
   }
   
   fetchBalanceSheetData = () => {
@@ -37,10 +56,24 @@ class MainPage extends React.Component {
       })
       .catch(error => console.error('Fetch error:', error));
   };
+
+  fetchIncomeStatementData = () => {
+    fetch('http://localhost:8081/income-statement')
+      .then(response => response.json())
+      .then(data => {
+        this.setState(prevState => ({
+          incomeStatementData: {
+            ...prevState.incomeStatementData,
+            accounts: data
+          }
+        }));
+      })
+      .catch(error => console.error('Fetch error:', error));
+  };
   
 
   render() {
-    const { showBalanceSheet, balanceSheetData } = this.state;
+    const { currentPage, balanceSheetData, incomeStatementData } = this.state;
 
     return (
       <div className="main-container">
@@ -48,11 +81,12 @@ class MainPage extends React.Component {
           <h1>Financial Management</h1>
         </header>
         <aside className="sidebar">
-          <SidebarMenu toggleBalanceSheet={this.toggleBalanceSheet} /> {/* Pass the toggle method as a prop */}
+          <SidebarMenu setCurrentPage={this.setCurrentPage} />
         </aside>
         <section className="content">
-          {showBalanceSheet && <BalanceSheet {...balanceSheetData} />}
-          {!showBalanceSheet && <p>Welcome to the main page!</p>}
+        {currentPage === 'balanceSheet' && <BalanceSheet {...balanceSheetData} />}
+        {currentPage === 'incomeStatement' && <IncomeStatement {...incomeStatementData} />}
+        {currentPage === null && <p>Welcome to the main page!</p>}
         </section>
       </div>
     );

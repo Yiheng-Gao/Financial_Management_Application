@@ -1,9 +1,9 @@
 import React from 'react';
 import './BalanceSheet.css'; 
 
-function BalanceSheet({ companyName, accounts }) {
+function IncomeStatement({ companyName, accounts }) {
   const groupedAccounts = accounts.reduce((acc, account) => {
-    if (account.AccountTypeName === 'Asset' || account.AccountTypeName === 'Liability'){
+    if (account.AccountTypeName === 'Expense' || account.AccountTypeName === 'Revenue'){
       acc[account.AccountTypeName] = acc[account.AccountTypeName] || [];
       acc[account.AccountTypeName].push(account);
     }
@@ -14,13 +14,13 @@ function BalanceSheet({ companyName, accounts }) {
     return groupedAccounts[type]?.reduce((sum, account) => sum + account.acctotalamount, 0) || 0;
   };
 
-  const totalAssets = calculateTotal('Asset');
-  const totalLiabilities = calculateTotal('Liability');
-  const ownersEquity = totalAssets - totalLiabilities;
+  const totalExpense = calculateTotal('Expense');
+  const totalRevenue = calculateTotal('Revenue');
+  const netProfit = totalRevenue - totalExpense;
 
   return (
     <div className="balance-sheet-container">
-      <h1>{companyName} Balance Sheet</h1>
+      <h1>{companyName} Income Statement</h1>
       <div className="basis-and-date">
         <p>Basis: Accrual</p>
         <p>As of 2023/11/10</p>
@@ -46,29 +46,29 @@ function BalanceSheet({ companyName, accounts }) {
                   <td>${account.acctotalamount.toLocaleString()}</td>
                 </tr>
               ))}
-              {type === 'Asset' && (
+              {type === 'Revenue' && (
                 <tr>
-                  <td>Total Asset</td>
+                  <td>Total Revenue</td>
                   <td></td>
-                  <td>${totalAssets.toLocaleString()}</td>
+                  <td>${totalRevenue.toLocaleString()}</td>
                 </tr>
               )}
-              {type === 'Liability' && (
+              {type === 'Expense' && (
                 <tr>
-                  <td>Total Liability</td>
+                  <td>Total Expense</td>
                   <td></td>
-                  <td>${totalLiabilities.toLocaleString()}</td>
+                  <td>${totalExpense.toLocaleString()}</td>
                 </tr>
               )}
             </React.Fragment>
           ))}
           <tr className="account-type-header">
-            <td colSpan="3">Equity</td>
+            <td colSpan="3">Net Income</td>
           </tr>
           <tr>
-            <td>Owner's Equity</td>
             <td></td>
-            <td>${ownersEquity.toLocaleString()}</td>
+            <td></td>
+            <td>${netProfit.toLocaleString()}</td>
           </tr>
         </tbody>
       </table>
@@ -79,4 +79,4 @@ function BalanceSheet({ companyName, accounts }) {
   );
 }
 
-export default BalanceSheet;
+export default IncomeStatement;

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './SidebarMenu.css';
 import BalanceSheet from './BalanceSheet';
 
-function SidebarMenu({ toggleBalanceSheet }) {
+function SidebarMenu({ setCurrentPage }) {
   const [openedDropdowns, setOpenedDropdowns] = useState([]);
   const toggleDropdown = (menuName) => {
     if (openedDropdowns.includes(menuName)) {
@@ -14,7 +14,12 @@ function SidebarMenu({ toggleBalanceSheet }) {
 
 
   const handleBalanceSheetClick = () => {
-    toggleBalanceSheet(); // Call the method passed down from MainPage to toggle the Balance Sheet
+    setCurrentPage('balanceSheet');
+    toggleDropdown('Reports');
+  };
+
+  const handleIncomeStatementClick = () => {
+    setCurrentPage('incomeStatement');
     toggleDropdown('Reports');
   };
 
@@ -39,7 +44,7 @@ function SidebarMenu({ toggleBalanceSheet }) {
         {openedDropdowns.includes('Reports') && (
           <div className="sub-menu">
             <div className="sub-menu-item" onClick={handleBalanceSheetClick}>Balance Sheet</div>
-            <div className="sub-menu-item">Profit and Loss</div>
+            <div className="sub-menu-item" onClick={handleIncomeStatementClick}>Income Statement</div>
             <div className="sub-menu-item">Cash Flow Statement</div>
             <div className="sub-menu-item">Account Transactions</div>
           </div>
