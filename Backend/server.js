@@ -25,7 +25,7 @@ app.get('/users',(req,res)=>{
 })
 
 app.get('/balance-sheet', (req, res) => {
-  const sql = "SELECT AccountName AS name, TotalAmount AS total FROM account"; // Modify according to your table structure
+  const sql = "SELECT AccountTypeName, AccountName, acctotalamount FROM balancesheetc"; // Modify according to your table structure
   db.query(sql, (err, data) => {
       if (err) {
         return res.json(err);

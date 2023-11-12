@@ -33,8 +33,9 @@
 
 /* Content styles */
 .content {
-  margin-top: 60px; /* Below the header */
+  margin-top: 1px; /* Below the header */
   margin-left: 250px; /* To the right of the sidebar */
   padding: 20px;
+  
   flex-grow: 1; /* Fill remaining space */
 }

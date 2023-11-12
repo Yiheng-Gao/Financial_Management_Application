@@ -3,6 +3,12 @@ import React from 'react';
 import './BalanceSheet.css'; // Ensure your styles are being applied correctly
 
 function BalanceSheet({ companyName, accounts }) {
+  const groupedAccounts = accounts.reduce((acc, account) => {
+    acc[account.AccountTypeName] = acc[account.AccountTypeName] || [];
+    acc[account.AccountTypeName].push(account);
+    return acc;
+  }, {});
+
   return (
     <div className="balance-sheet-container">
       <h1>{companyName} Balance Sheet</h1>
@@ -13,16 +19,25 @@ function BalanceSheet({ companyName, accounts }) {
       <table>
         <thead>
           <tr>
+          <th>Account type</th>
             <th>ACCOUNT</th>
             <th>TOTAL</th>
           </tr>
         </thead>
         <tbody>
-          {accounts.map(account => (
-            <tr key={account.name}>
-              <td>{account.name}</td>
-              <td>${account.total.toLocaleString()}</td> {/* Format number as currency */}
-            </tr>
+        {Object.entries(groupedAccounts).map(([type, accounts]) => (
+            <React.Fragment key={type}>
+              <tr className="account-type-header">
+                <td colSpan="3">{type}</td>
+              </tr>
+              {accounts.map(account => (
+                <tr key={account.AccountName}>
+                  <td></td>
+                  <td>{account.AccountName}</td>
+                  <td>${account.acctotalamount.toLocaleString()}</td>
+                </tr>
+              ))}
+            </React.Fragment>
           ))}
         </tbody>
       </table>
