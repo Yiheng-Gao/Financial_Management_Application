@@ -1,7 +1,7 @@
 /* Global styles for the main container */
 .main-container {
   display: flex;
-  flex-direction: row; /* Side by side layout */
+  flex-direction: row; /* Side by side layouttt */
   height: 100vh;
   width: 100vw;
   overflow: hidden; /* Prevents scrollbars if the content is larger than the view */
