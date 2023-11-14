@@ -14,7 +14,7 @@
   height: 60px; /* Adjust height as needed */
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   position: fixed; /* Header is fixed */
   z-index: 2; /* Ensure it's above other content */
   top: 0; /* Align to the top */
@@ -38,4 +38,28 @@
   padding: 20px;
   
   flex-grow: 1; /* Fill remaining space */
+}
+.user-info {
+  display: flex;
+  align-items: center;
+  
+}
+
+.logout-button {
+  padding: 5px 10px;
+  margin-left: 10px;
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.vip-icon {
+  margin-left: 10px;
+  cursor: pointer;
+  /* Add more styling as per your design requirements */
+}
+.vip-icon-upgraded {
+  margin-left: 10px;
+  /* Add more styling as per your design requirements */
 }

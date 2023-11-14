@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './SignIn.css';
+import logo from './logo.png';
 
 function SignInPage() {
     const navigate = useNavigate();
-    const [orgName, setOrgName] = useState('');
-    const [orgLocation, setOrgLocation] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -17,10 +16,6 @@ function SignInPage() {
             setUsername(value);
         } else if (id === "password") {
             setPassword(value);
-        } else if (id === "orgName") {
-            setOrgName(value);
-        } else if (id === "orgLocation") {
-            setOrgLocation(value);
         }
         setErrorMessage(''); // Clear error message upon any input change
     }
@@ -29,26 +24,29 @@ function SignInPage() {
         setShowPassword(showPassword => !showPassword);
     };
 
+    const navigateToSignUp = () => {
+        navigate('/signup'); // This route should be set up in your React Routerr
+    }
+
     const handleSubmit = async (event) => {
         event.preventDefault(); // Prevent the default form submit action
         // Here you would typically send the `username` and `password` to your backend for authentication
         console.log('Submitting', { username, password });
         // Implement your logic to handle the authentication response
+        // On successful sign-in:
+        localStorage.setItem('username', username);
+        navigate('/main');
     };
 
     const navigateToMainPage = () => {
-        // Start with checking the new fields first
         if (!username) {
             setErrorMessage('Please enter your username.');
         } else if (!password) {
             setErrorMessage('Please enter your password.');
-        } else if (!orgName) {
-            setErrorMessage('Please fill in the organization name.');
-        } else if (!orgLocation) {
-            setErrorMessage('Please choose a location.');
         } else {
-            // If everything is filled out, proceed with sending data to the DB and navigating
-            console.log('Data to be sent to DB:', { username, password, orgName, orgLocation });
+            console.log('Data to be sent:', { username, password });
+            // Assuming username and password validation is successful
+            localStorage.setItem('username', username); // Store the username
             navigate('/main'); // Navigate to the main page
         }
     }
@@ -60,13 +58,14 @@ function SignInPage() {
     return (
         <div id="signInPage" className="page">
             <div className="header">
-                <img src="logo.png" alt="Logo" className="logo" />
+                <img src={logo} alt="Logo" className="logo" style={{ width: '80px', height: '80px' }}/>
+
                 <span>Financial Management</span>
             </div>
 
             <div className="welcome-text">
                 Welcome,
-                <p>Let us know what is your organization's name &amp; where your business is</p>
+                <p>Please sign in to your account</p>
             </div>
 
             {errorMessage && <div className="error-message">{errorMessage}</div>}
@@ -84,19 +83,8 @@ function SignInPage() {
                     </button>
                 </div>
 
-                <label htmlFor="orgName">Organization Name*</label>
-                <input type="text" id="orgName" onChange={handleInputChange} />
-
-                <label htmlFor="orgLocation">Organization Location*</label>
-                <select id="orgLocation" onChange={handleInputChange}>
-                    <option value="">Select a location</option>
-                    <option value="Location 1">Canada</option>
-                    <option value="Location 2">China</option>
-                    <option value="Location 3">USA</option>
-                    <option value="Location 4">Europe</option>
-                </select>
-
-                <button onClick={navigateToMainPage}>Sign in</button>
+                <button onClick={navigateToMainPage}>Sign In</button>
+                <button onClick={navigateToSignUp} className="signup-button">Sign Up</button> {/* New Sign Up button */}
                 <button onClick={closePage}>Cancel</button>
             </div>
         </div>

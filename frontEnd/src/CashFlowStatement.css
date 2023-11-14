@@ -1,0 +1,47 @@
+/* CashFlowStatement.css */
+
+.cash-flow-statement-container {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background-color: #fff;
+    color: #333;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 20px;
+    overflow-y: auto;
+    max-height: calc(100vh - 80px);
+  }
+  
+  .cash-flow-statement-container h1, h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  
+  .cash-flow-statement-container table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .cash-flow-statement-container th,
+  .cash-flow-statement-container td {
+    text-align: left;
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .cash-flow-statement-container th {
+    background-color: #f2f2f2;
+  }
+  
+  .net-cash-flow {
+    font-weight: bold;
+  }
+  
+  .total-net-cash-flow {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
