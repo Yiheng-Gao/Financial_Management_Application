@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './SidebarMenu.css';
 import BalanceSheet from './BalanceSheet';
+import CashFlowStatement from './CashFlowStatement';
 
 function SidebarMenu({ setCurrentPage }) {
   const [openedDropdowns, setOpenedDropdowns] = useState([]);
@@ -12,7 +13,6 @@ function SidebarMenu({ setCurrentPage }) {
     }
   };
 
-
   const handleBalanceSheetClick = () => {
     setCurrentPage('balanceSheet');
     toggleDropdown('Reports');
@@ -23,6 +23,16 @@ function SidebarMenu({ setCurrentPage }) {
     toggleDropdown('Reports');
   };
 
+  const handleCashFlowStatementClick = () => {
+    setCurrentPage('cashFlowStatement');
+    toggleDropdown('Reports');
+  };
+
+  const handleAccountTransactionsClick = () => {
+    setCurrentPage('accountTransactions'); // This should match the identifier used in MainPage.jsx
+    toggleDropdown('Reports');
+  };
+  
   return (
     <div className="sidebar-menu">
       <div className="sidebar-header">Menu</div>
@@ -45,8 +55,8 @@ function SidebarMenu({ setCurrentPage }) {
           <div className="sub-menu">
             <div className="sub-menu-item" onClick={handleBalanceSheetClick}>Balance Sheet</div>
             <div className="sub-menu-item" onClick={handleIncomeStatementClick}>Income Statement</div>
-            <div className="sub-menu-item">Cash Flow Statement</div>
-            <div className="sub-menu-item">Account Transactions</div>
+            <div className="sub-menu-item" onClick={handleCashFlowStatementClick}>Cash Flow Statement</div>
+            <div className="sub-menu-item" onClick={handleAccountTransactionsClick}>Account Transactions</div>
           </div>
         )}
       </div>

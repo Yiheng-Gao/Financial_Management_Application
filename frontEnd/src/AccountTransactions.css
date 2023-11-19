@@ -1,0 +1,60 @@
+/* AccountTransactions.css */
+.account-transactions-container {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background-color: #fff;
+    color: #333;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 100%;
+    margin: 20px auto;
+    overflow-x: auto;
+  }
+  
+  .account-transactions-container h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  
+  .account-transactions-basis p {
+    margin: 0;
+    text-align: center;
+    font-size: 16px;
+  }
+  
+  .account-transactions-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .account-transactions-table th,
+  .account-transactions-table td {
+    text-align: left;
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .account-transactions-table th {
+    background-color: #f2f2f2;
+  }
+  
+  .add-temp-note-btn {
+    text-align: right;
+    margin-top: 20px;
+  }
+  
+  .add-temp-note-btn button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .add-temp-note-btn button:hover {
+    background-color: #0056b3;
+  }
+  
