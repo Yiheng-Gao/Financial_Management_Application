@@ -1,0 +1,58 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Open Sans', sans-serif; /* Example: using a Google Font */
+    background-color: #f4f7f6; /* Soft background color */
+    background-image: linear-gradient(to right top, #dfe9f3, #e8eff9, #f1f5ff, #fafbff, #ffffff); /* Example: Gradient background */
+}
+
+.landing-container {
+    text-align: center;
+    max-width: 350px; /* Restrict max width for better appearance on larger screens */
+    padding: 20px; /* Padding for small screens */
+}
+
+.logo {
+    width: 150px;
+    height: auto;
+    margin-bottom: 30px;
+}
+
+.landing-container h1 {
+    color: #007BFF;
+    margin-bottom: 15px;
+}
+
+.landing-container p {
+    color: #606770;
+    margin-bottom: 30px;
+}
+
+.landing-container button {
+    padding: 12px 25px;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 0 2px 4px rgba(0, 123, 255, 0.5);
+}
+
+.landing-container button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px); /* Slight lift effect on hover */
+}
+
+/* Responsive Design for smaller screens */
+@media (max-width: 600px) {
+    .landing-container {
+        max-width: 100%;
+        padding: 15px;
+    }
+}
