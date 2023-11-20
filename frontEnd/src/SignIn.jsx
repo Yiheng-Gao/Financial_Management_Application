@@ -30,12 +30,29 @@ function SignInPage() {
 
     const handleSubmit = async (event) => {
         event.preventDefault(); // Prevent the default form submit action
-        // Here you would typically send the `username` and `password` to your backend for authentication
-        console.log('Submitting', { username, password });
-        // Implement your logic to handle the authentication response
-        // On successful sign-in:
-        localStorage.setItem('username', username);
-        navigate('/main');
+        // Send the `username` and `password` to your backend for authentication
+        fetch('http://localhost:8081/api/signin', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, password }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            if (data.message === "Sign-in successful") {
+                // Handle successful sign-in here
+                localStorage.setItem('username', username);
+                navigate('/main');
+            } else {
+                // Handle sign-in failure
+                setErrorMessage(data.message || 'Failed to sign in.');
+            }
+        })
+        .catch(error => {
+            setErrorMessage('Failed to sign in.');
+        });
     };
 
     const navigateToMainPage = () => {
@@ -83,7 +100,7 @@ function SignInPage() {
                     </button>
                 </div>
 
-                <button onClick={navigateToMainPage}>Sign In</button>
+                <button onClick={handleSubmit}>Sign In</button>
                 <button onClick={navigateToSignUp} className="signup-button">Sign Up</button> {/* New Sign Up button */}
                 <button onClick={closePage}>Cancel</button>
             </div>
