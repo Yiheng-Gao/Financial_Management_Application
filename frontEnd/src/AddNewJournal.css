@@ -1,0 +1,76 @@
+/* AddNewJournal.css - Adjustments for MainPage layout */
+
+
+
+.add-new-journal-container {
+  margin-left: 250px; /* Same as the sidebar width */
+  padding-top: 60px; /* Same as the header height */
+  padding-left: 20px; /* Left padding for content */
+  padding-right: 20px; /* Right padding for content */
+  max-height: calc(100vh - 60px); /* Full height minus header */
+  overflow-y: auto; /* Enable vertical scrolling */
+
+
+}
+.fixed-inputs {
+  display: flex;
+  justify-content: flex-end; /* Align to the right */
+  padding-bottom: 10px; /* Space below the fixed inputs */
+}
+
+.add-new-journal-header {
+  padding-bottom: 20px;
+}
+
+.add-new-journal-form {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 60px);
+  background: #fff;
+  padding: 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  max-height: calc(100vh - 60px - 20px); /* Full height minus header and some padding */
+  overflow-y: auto; /* Enable vertical scrolling */
+  padding-bottom: 50px;
+}
+
+/* Style for the table and form inputs */
+.add-new-journal-table {
+  width: 100%;
+  margin-bottom: 20px;
+  
+  /* Other table styles */
+}
+
+.add-new-journal-error {
+  color: red;
+  margin-top: 10px;
+}
+
+.add-new-journal-success {
+  color: green;
+  margin-top: 10px;
+  
+}
+
+.add-new-journal-table th, .add-new-journal-table td {
+  padding: 8px;
+  text-align: left;
+  /* Other cell styles */
+}
+
+.add-new-journal-input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 4px;
+  box-sizing: border-box;
+  /* Other input styles */
+}
+
+/* Style for buttons */
+.add-new-journal-button {
+  padding: 10px 20px;
+  margin-right: 10px;
+  /* Other button styles */
+}
+

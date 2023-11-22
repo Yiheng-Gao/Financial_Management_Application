@@ -3,20 +3,32 @@ import './BalanceSheet.css';
 
 function BalanceSheet({ companyName, accounts }) {
   const groupedAccounts = accounts.reduce((acc, account) => {
-    if (account.AccountTypeName === 'Asset' || account.AccountTypeName === 'Liability'){
+    if (account.AccountTypeName === 'Asset' || account.AccountTypeName === 'Liability'|| account.AccountTypeName === 'Equity'){
       acc[account.AccountTypeName] = acc[account.AccountTypeName] || [];
       acc[account.AccountTypeName].push(account);
     }
     return acc;
   }, {});
 
+  const allAccounts = accounts.reduce((acc, account) => {
+      acc[account.AccountTypeName] = acc[account.AccountTypeName] || [];
+      acc[account.AccountTypeName].push(account);
+    return acc;
+  }, {});
+
   const calculateTotal = (type) => {
-    return groupedAccounts[type]?.reduce((sum, account) => sum + account.acctotalamount, 0) || 0;
+    return allAccounts[type]?.reduce((sum, account) => sum + account.acctotalamount, 0) || 0;
   };
 
   const totalAssets = calculateTotal('Asset');
   const totalLiabilities = calculateTotal('Liability');
-  const ownersEquity = totalAssets - totalLiabilities;
+  const totalRevenue = calculateTotal('Revenue');
+  const totalExpense = calculateTotal('Expense');
+  const equity = calculateTotal('Equity');
+  const retainedEarning = totalRevenue-totalExpense;
+  const totalEquity = equity+retainedEarning;
+  const balanceCheck = totalAssets - totalLiabilities - totalEquity;
+
 
   return (
     <div className="balance-sheet-container">
@@ -60,16 +72,25 @@ function BalanceSheet({ companyName, accounts }) {
                   <td>${totalLiabilities.toLocaleString()}</td>
                 </tr>
               )}
+              {type === 'Equity' && (
+                <>
+
+                  <tr>
+                    <td></td>
+                    <td>Retained Earnings</td>
+                    <td>${retainedEarning.toLocaleString()}</td>
+                  </tr>
+                  <tr>
+                    <td>Total Equity</td>
+                    <td></td>
+                    <td>${totalEquity.toLocaleString()}</td>
+                  </tr>
+                </>
+                
+                
+              )}
             </React.Fragment>
           ))}
-          <tr className="account-type-header">
-            <td colSpan="3">Equity</td>
-          </tr>
-          <tr>
-            <td>Owner's Equity</td>
-            <td></td>
-            <td>${ownersEquity.toLocaleString()}</td>
-          </tr>
         </tbody>
       </table>
       <div className="add-temp-note-btn">

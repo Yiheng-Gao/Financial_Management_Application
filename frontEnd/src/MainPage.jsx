@@ -1,12 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './MainPage.css';
 import SidebarMenu from './SidebarMenu';
 import BalanceSheet from './BalanceSheet'; 
 import IncomeStatement from './IncomeStatement';
 import CashFlowStatement from './CashFlowStatement';
 import AccountTransactions from './AccountTransactions';
+import ManualJournals from './ManualJournals';
+import AddNewJournal from './AddNewJournal';
 
 class MainPage extends React.Component {
+  
+
+
   state = {
     currentPage: null,
     username: '',
@@ -37,43 +42,16 @@ class MainPage extends React.Component {
     this.setState({ currentPage: page });
   };
 
-  // Method to toggle the Balance Sheet
-  toggleBalanceSheet = () => {
-    this.setState(prevState => ({
-      showBalanceSheet: !prevState.showBalanceSheet,
-      showIncomeStatement: false
-    }));
+  setAddNewJournalPage = () => {
+    this.setState({ currentPage: 'addNewJournal' });
   };
 
-  toggleIncomeStatement = () => {
-    this.setState(prevState => ({
-      showIncomeStatement: !prevState.showIncomeStatement,
-      showBalanceSheet: false
-    }));
-  };
-
-  toggleCashFlowStatement = () => {
-    this.setState(prevState => ({
-      showCashFlowStatement: !prevState.showCashFlowStatement,
-      showBalanceSheet: false,
-      showIncomeStatement: false
-    }));
-  };
-
-  toggleAccountTransactions = () => {
-    this.setState(prevState => ({
-      showCashFlowStatement: !prevState.showCashFlowStatement,
-      showBalanceSheet: false,
-      showIncomeStatement: false,
-      showCashFlowStatement: false
-    }));
-  };
-  
 
   componentDidMount() {
     this.fetchBalanceSheetData();
     this.fetchIncomeStatementData();
     this.fetchCashFlowStatementData();
+    this.fetchManualJournalsData();
     this.fetchUsername(); // Fetch the username when the component mounts
 
     //current username display
@@ -100,6 +78,21 @@ class MainPage extends React.Component {
     console.log('Upgrade to VIP clicked');
     this.setState({ isVip: true });
     // You might call an API endpoint here and then update the state accordingly
+  };
+
+  fetchManualJournalsData = () => {
+    // Fetch manual journals data from an API or other source
+    fetch('http://localhost:8081/manual-journals')
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          manualJournalsData: {
+            ...this.state.manualJournalsData,
+            journals: data
+          }
+        });
+      })
+      .catch(error => console.error('Fetch error:', error));
   };
 
   fetchBalanceSheetData = () => {
@@ -161,7 +154,7 @@ class MainPage extends React.Component {
   };
   
   render() {
-    const { currentPage, balanceSheetData, incomeStatementData, cashFlowStatementData, accountTransactionsData, username, isVip } = this.state;
+    const { currentPage, balanceSheetData, incomeStatementData, cashFlowStatementData, accountTransactionsData, username, isVip, manualJournalsData } = this.state;
 
     return (
         <div className="main-container">
@@ -182,6 +175,8 @@ class MainPage extends React.Component {
             {currentPage === 'incomeStatement' && <IncomeStatement {...incomeStatementData} />}
             {currentPage === 'cashFlowStatement' && <CashFlowStatement {...cashFlowStatementData} />}
             {currentPage === 'accountTransactions' && <AccountTransactions {...accountTransactionsData} />}
+            {currentPage === 'manualJournals' && <ManualJournals {...manualJournalsData} setAddNewJournalPage={this.setAddNewJournalPage}/>}
+            {currentPage === 'addNewJournal' && <AddNewJournal />}
             {currentPage === null && <p>Welcome to the main page!</p>}
         </section>
       </div>

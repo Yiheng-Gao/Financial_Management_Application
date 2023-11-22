@@ -2,7 +2,7 @@
 .sidebar-menu {
   width: 250px;
   height: calc(100vh - 60px); /* 100vh represents the full viewport height. 60px is assumed header height. Adjust if different. */
-  background-color: #007BFF;
+  background-color: lightcyan;
   padding: 15px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
   position: fixed; /* This ensures the sidebar stays in place */

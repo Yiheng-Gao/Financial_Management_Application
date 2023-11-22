@@ -13,6 +13,11 @@ function SidebarMenu({ setCurrentPage }) {
     }
   };
 
+  const handleManualJournalsClick = () => {
+    setCurrentPage('manualJournals'); // Make sure 'manualJournals' matches the identifier used in MainPage.jsx
+    toggleDropdown('Accountant');
+  };
+
   const handleBalanceSheetClick = () => {
     setCurrentPage('balanceSheet');
     toggleDropdown('Reports');
@@ -42,7 +47,7 @@ function SidebarMenu({ setCurrentPage }) {
         <span className={`arrow ${openedDropdowns.includes('Accountant') ? 'open' : ''}`}>►</span>
         {openedDropdowns.includes('Accountant') && (
           <div className="sub-menu">
-            <div className="sub-menu-item">Manual Journals</div>
+            <div className="sub-menu-item" onClick={handleManualJournalsClick}>Manual Journals</div>
             <div className="sub-menu-item">Chart of Accounts</div>
           </div>
         )}

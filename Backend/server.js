@@ -10,7 +10,7 @@ app.use(express.json()); // Add this middleware to parse JSON bodies
 const db = mysql.createConnection({
   host: "127.0.0.1",
   user: "root",
-  password: "20231111ABC",
+  password: "yg486653",
   database: "accviewd",
 });
 
@@ -25,6 +25,37 @@ app.get("/users", (req, res) => {
     return res.json(data);
   });
 });
+
+// ...
+
+// server.js
+
+app.get("/accounts", (req, res) => {
+  const sql = `
+    SELECT AccountID, AccountTypeName, AccountName
+    FROM balancesheetc
+    ORDER BY AccountTypeName, AccountName;`;
+
+  db.query(sql, (err, results) => {
+    if (err) {
+      return res.status(500).json({ message: "Error querying the database", error: err });
+    } else {
+      const groupedAccounts = results.reduce((acc, { AccountTypeName, AccountID, AccountName }) => {
+        if (!acc[AccountTypeName]) {
+          acc[AccountTypeName] = [];
+        }
+        acc[AccountTypeName].push({ AccountID, AccountName });
+        return acc;
+      }, {});
+
+      return res.json(groupedAccounts);
+    }
+  });
+});
+
+
+// ...
+
 
 app.get("/balance-sheet", (req, res) => {
   const sql =
@@ -49,6 +80,65 @@ app.get("/income-statement", (req, res) => {
     }
   });
 });
+
+
+app.get("/manual-journals", (req, res) => {
+  const sql = `
+    SELECT TransactionID, Date, Amount, Description
+    FROM transactionsheet`; // Ensure this matches the actual view and columns in your database
+  db.query(sql, (err, data) => {
+    if (err) {
+      return res.status(500).json({ message: "Error querying the database", error: err });
+    } else {
+      return res.json(data);
+    }
+  });
+});
+
+// ... (Other parts of the server remain unchanged)
+
+app.post("/add-transactions", (req, res) => {
+  const transactions = req.body;
+
+  // Start a transaction
+  db.beginTransaction(err => {
+    if (err) {
+      return res.status(500).json({ message: "Error starting transaction", error: err });
+    }
+
+    // Execute all queries in a batch
+    const transactionPromises = transactions.map(({ accountID, date, amount, description, transactionType }) => {
+      const sql = `INSERT INTO transaction (AccountID, Date, Amount, Description, TransactionType) VALUES (?, ?, ?, ?, ?);`;
+      return new Promise((resolve, reject) => {
+        db.query(sql, [accountID, date, amount, description, transactionType], (error, results) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(results);
+          }
+        });
+      });
+    });
+
+    Promise.all(transactionPromises).then(() => {
+      db.commit(err => {
+        if (err) {
+          return db.rollback(() => {
+            res.status(500).json({ message: "Error committing transaction", error: err });
+          });
+        }
+        res.status(200).json({ message: "Transactions added successfully" });
+      });
+    }).catch(error => {
+      db.rollback(() => {
+        res.status(500).json({ message: "Error inserting transactions", error: error });
+      });
+    });
+  });
+});
+
+
+
 // Endpoint for user sign-up
 app.post("/api/signup", (req, res) => {
   const { username, password, email } = req.body; // Now including email in the destructure
