@@ -68,8 +68,79 @@ app.get("/invoices", (req, res) => {
   });
 });
 
+
+app.get("/bills", (req, res) => {
+  const sql = `
+    SELECT BillID, Date, Amount, SupplierName, DueDate, PaymentStatus
+    FROM bills`;
+  db.query(sql, (err, results) => {
+    if (err) {
+      return res.status(500).json({ message: "Error querying the database for bills", error: err });
+    } else {
+      return res.json(results);
+    }
+  });
+});
+
 app.get("/customers", (req, res) => {
-  const sql = "SELECT DISTINCT CustomerID, CustomerName FROM invoices";
+  const sql = "SELECT DISTINCT CustomerID, CustomerName FROM customer";
+  db.query(sql, (err, results) => {
+    if (err) {
+      return res.status(500).json({ message: "Error querying the database", error: err });
+    } else {
+      return res.json(results);
+    }
+  });
+});
+
+app.get("/customers-page", (req, res) => {
+  const sql = "SELECT CustomerID, CustomerName, CustomerEmail FROM customer";
+  db.query(sql, (err, results) => {
+    if (err) {
+      return res.status(500).json({ message: "Error querying the database", error: err });
+    }
+    res.json(results);
+  });
+});
+
+app.post("/create-customer", (req, res) => {
+  const { customerName, customerEmail } = req.body;
+  const sql = "INSERT INTO customer (CustomerName, CustomerEmail) VALUES (?, ?)";
+  db.query(sql, [customerName, customerEmail], (err, result) => {
+    if (err) {
+      res.status(500).json({ message: "Error adding new customer", error: err });
+    } else {
+      res.status(201).json({ message: "Customer added successfully", customerID: result.insertId });
+    }
+  });
+});
+
+app.post("/create-supplier", (req, res) => {
+  const { supplierName, supplierEmail } = req.body;
+  const sql = "INSERT INTO supplier (SupplierName, SupplierEmail) VALUES (?, ?)";
+  db.query(sql, [supplierName, supplierEmail], (err, result) => {
+    if (err) {
+      res.status(500).json({ message: "Error adding new supplier", error: err });
+    } else {
+      res.status(201).json({ message: "Supplier added successfully", supplierID: result.insertId });
+    }
+  });
+});
+
+
+app.get("/suppliers-page", (req, res) => {
+  const sql = "SELECT SupplierID, SupplierName, SupplierEmail FROM supplier";
+  db.query(sql, (err, results) => {
+    if (err) {
+      return res.status(500).json({ message: "Error querying the database", error: err });
+    }
+    res.json(results);
+  });
+});
+
+
+app.get("/suppliers", (req, res) => {
+  const sql = "SELECT DISTINCT SupplierID, SupplierName FROM supplier";
   db.query(sql, (err, results) => {
     if (err) {
       return res.status(500).json({ message: "Error querying the database", error: err });
@@ -208,6 +279,51 @@ app.post("/add-invoice-transactions", (req, res) => {
   });
 });
 
+
+app.post("/add-bill-transactions", (req, res) => {
+  const { billItems, issueDate, supplierID, note, dueDate } = req.body;
+  let billTransactions = [];
+
+  db.beginTransaction(err => {
+    if (err) return res.status(500).json({ message: "Error starting transaction", error: err });
+
+    const transactionPromises = billItems.map(item => {
+      return new Promise((resolve, reject) => {
+        const sqlInsertTransaction = `INSERT INTO transaction (AccountID, Date, Amount, Description, TransactionType) VALUES (?, ?, ?, ?, 3);`;
+        db.query(sqlInsertTransaction, [item.AccountID, issueDate, item.Amount, note], (error, results) => {
+          if (error) reject(error);
+          else if (item.AccountID === 11) { 
+            billTransactions.push({ transactionID: results.insertId, supplierID, item: item.Description, dueDate });
+          }
+          resolve();
+        });
+      });
+    });
+
+    Promise.all(transactionPromises)
+      .then(() => {
+        const billPromises = billTransactions.map(({ transactionID, supplierID, item, dueDate }) => {
+          return new Promise((resolve, reject) => {
+            const sqlInsertBill = `INSERT INTO bill (TransactionID, SupplierID, BillItem, DueDate, PaymentStatus) VALUES (?, ?, ?, ?, 'Unpaid');`;
+            db.query(sqlInsertBill, [transactionID, supplierID, item, dueDate], (error) => {
+              if (error) reject(error);
+              else resolve();
+            });
+          });
+        });
+        return Promise.all(billPromises);
+      })
+      .then(() => {
+        db.commit(err => {
+          if (err) return db.rollback(() => res.status(500).json({ message: "Error committing transaction", error: err }));
+          res.status(200).json({ message: "Bill transactions added successfully" });
+        });
+      })
+      .catch(error => {
+        db.rollback(() => res.status(500).json({ message: "Error inserting transactions", error }));
+      });
+  });
+});
 
 
 

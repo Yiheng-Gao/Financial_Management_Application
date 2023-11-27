@@ -42,6 +42,21 @@ function SidebarMenu({ setCurrentPage }) {
     setCurrentPage('invoices');
     toggleDropdown('Sales');
   };
+
+  const handleBillsClick = () => {
+    setCurrentPage('bills');
+    toggleDropdown('Purchases');
+  };
+
+  const handleCustomersClick = () => {
+    setCurrentPage('customers');
+    toggleDropdown('Sales');
+  };
+
+  const handleSuppliersClick = () => {
+    setCurrentPage('suppliers');
+    toggleDropdown('Sales');
+  };
   
   return (
     <div className="sidebar-menu">
@@ -76,7 +91,7 @@ function SidebarMenu({ setCurrentPage }) {
         <span className={`arrow ${openedDropdowns.includes('Sales') ? 'open' : ''}`}>►</span>
         {openedDropdowns.includes('Sales') && (
           <div className="sub-menu">
-            <div className="sub-menu-item">Customer</div>
+            <div className="sub-menu-item" onClick={handleCustomersClick}>Customer</div>
             <div className="sub-menu-item" onClick={handleInvoicesClick}>Invoices</div>
           </div>
         )}
@@ -87,8 +102,8 @@ function SidebarMenu({ setCurrentPage }) {
         <span className={`arrow ${openedDropdowns.includes('Purchases') ? 'open' : ''}`}>►</span>
         {openedDropdowns.includes('Purchases') && (
           <div className="sub-menu">
-            <div className="sub-menu-item">Vendors</div>
-            <div className="sub-menu-item">Expenses</div>
+            <div className="sub-menu-item" onClick={handleSuppliersClick}>Supplier</div>
+            <div className="sub-menu-item" onClick={handleBillsClick}>Bills</div>
           </div>
         )}
       </div>

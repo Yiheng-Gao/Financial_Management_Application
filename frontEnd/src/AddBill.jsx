@@ -1,43 +1,43 @@
 import React, { useState, useEffect } from 'react';
-import './AddInvoice.css'; 
+import './AddInvoice.css'; // This CSS file will need to be created
 
-const initialInvoiceItem = { item: '', amount: 0 };
+const initialBillItem = { item: '', amount: 0 };
 
-function AddInvoice() {
-  const [invoiceItems, setInvoiceItems] = useState([initialInvoiceItem]);
+function AddBill() {
+  const [billItems, setBillItems] = useState([initialBillItem]);
   const [issueDate, setIssueDate] = useState('');
   const [dueDate, setDueDate] = useState('');
-  const [selectedCustomer, setSelectedCustomer] = useState({});
+  const [selectedSupplier, setSelectedSupplier] = useState({});
   const [note, setNote] = useState('');
   const [totalAmount, setTotalAmount] = useState(0);
 
   const [errorMessage, setErrorMessage] = useState('');
 const [successMessage, setSuccessMessage] = useState('');
-const [customers, setCustomers] = useState([]);
+const [suppliers, setSuppliers] = useState([]);
 
 
 useEffect(() => {
-  fetch('http://localhost:8081/customers')
+  fetch('http://localhost:8081/suppliers')
     .then(response => response.json())
     .then(data => {
-      setCustomers(data);
+      setSuppliers(data);
     })
-    .catch(error => console.error('Error fetching customers:', error));
+    .catch(error => console.error('Error fetching suppliers:', error));
 }, []);
 
 
   const handleAddItem = () => {
-    setInvoiceItems([...invoiceItems, initialInvoiceItem]);
+    setBillItems([...billItems, initialBillItem]);
   };
 
   const handleItemChange = (index, column, value) => {
-    const updatedItems = invoiceItems.map((item, i) => {
+    const updatedItems = billItems.map((item, i) => {
       if (index === i) {
         return { ...item, [column]: value };
       }
       return item;
     });
-    setInvoiceItems(updatedItems);
+    setBillItems(updatedItems);
   
     if (column === 'amount') {
       const newTotal = updatedItems.reduce((total, currentItem) => total + Number(currentItem.amount || 0), 0);
@@ -45,30 +45,30 @@ useEffect(() => {
     }
   };
   
-  const handleCustomerChange = (e) => {
-    const customer = JSON.parse(e.target.value);
-    setSelectedCustomer(customer);
+  const handleSupplierChange = (e) => {
+    const supplier = JSON.parse(e.target.value);
+    setSelectedSupplier(supplier);
   };
   
 
   const handleSubmit = async (e) => {
     e.preventDefault();
   
-    // Prepare invoice data
-    const invoiceData = {
+  
+    const billData = {
       issueDate: issueDate,
       dueDate: dueDate,
-      customerID: selectedCustomer.CustomerID,
+      supplierID: selectedSupplier.SupplierID,
       note: note,
-      invoiceItems: invoiceItems.flatMap(item => ([
+      billItems: billItems.flatMap(item => ([
         {
-          AccountID: 5, // Fixed AccountID as specified for the first transaction
+          AccountID: 2, 
           Date: issueDate,
           Amount: item.amount,
           Description: note
         },
         {
-          AccountID: 14, // Fixed AccountID as specified for the second transaction
+          AccountID: 11, 
           Date: issueDate,
           Amount: item.amount,
           Description: note
@@ -77,22 +77,22 @@ useEffect(() => {
     };
   
     try {
-      const response = await fetch('http://localhost:8081/add-invoice-transactions', {
+      const response = await fetch('http://localhost:8081/add-bill-transactions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(invoiceData)
+        body: JSON.stringify(billData)
       });
   
       const data = await response.json();
-      if (!response.ok) throw new Error(data.message || 'Error occurred while adding the invoice.');
+      if (!response.ok) throw new Error(data.message || 'Error occurred while adding the bill.');
       
-      setInvoiceItems([initialInvoiceItem]);
+      setBillItems([initialBillItem]);
       setIssueDate('');
       setDueDate('');
-      setSelectedCustomer({});
+      setSelectedSupplier({});
       setNote('');
       setTotalAmount(0);
-      setSuccessMessage('Invoice added successfully.');
+      setSuccessMessage('Bill added successfully.');
       setErrorMessage('');
     } catch (error) {
       setErrorMessage(error.message);
@@ -110,7 +110,7 @@ useEffect(() => {
   return (
     <div className="add-invoice-container">
       <header className="add-invoice-header">
-        <h2>Add New Invoice</h2>
+        <h2>Add New Bill</h2>
       </header>
       <form className="add-invoice-form" onSubmit={handleSubmit}>
   <div className="add-invoice-metadata">
@@ -134,17 +134,17 @@ useEffect(() => {
     </div>
     
     <div className="add-invoice-metadata-field">
-      <label htmlFor="customer">Customer:</label>
+      <label htmlFor="supplier">Supplier:</label>
       <select
-        id="customer"
-        value={JSON.stringify(selectedCustomer)}
-        onChange={handleCustomerChange}
+        id="supplier"
+        value={JSON.stringify(selectedSupplier)}
+        onChange={handleSupplierChange}
         required
       >
-        <option value="">Select Customer</option>
-        {customers.map(customer => (
-          <option key={customer.CustomerID} value={JSON.stringify(customer)}>
-            {customer.CustomerName}
+        <option value="">Select Supplier</option>
+        {suppliers.map(supplier => (
+          <option key={supplier.SupplierID} value={JSON.stringify(supplier)}>
+            {supplier.SupplierName}
           </option>
         ))}
       </select>
@@ -164,12 +164,12 @@ useEffect(() => {
   <table className="add-invoice-table">
     <thead>
       <tr>
-        <th>Invoice Item</th>
+        <th>Bill Item</th>
         <th>Amount</th>
       </tr>
     </thead>
     <tbody>
-  {invoiceItems.map((item, index) => (
+  {billItems.map((item, index) => (
     <tr key={index}>
       <td>
         <input
@@ -209,4 +209,4 @@ useEffect(() => {
   );
 }
 
-export default AddInvoice;
+export default AddBill;
