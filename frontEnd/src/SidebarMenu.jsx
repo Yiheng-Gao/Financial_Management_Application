@@ -37,6 +37,11 @@ function SidebarMenu({ setCurrentPage }) {
     setCurrentPage('accountTransactions'); // This should match the identifier used in MainPage.jsx
     toggleDropdown('Reports');
   };
+
+  const handleInvoicesClick = () => {
+    setCurrentPage('invoices');
+    toggleDropdown('Sales');
+  };
   
   return (
     <div className="sidebar-menu">
@@ -72,7 +77,7 @@ function SidebarMenu({ setCurrentPage }) {
         {openedDropdowns.includes('Sales') && (
           <div className="sub-menu">
             <div className="sub-menu-item">Customer</div>
-            <div className="sub-menu-item">Invoices</div>
+            <div className="sub-menu-item" onClick={handleInvoicesClick}>Invoices</div>
           </div>
         )}
       </div>

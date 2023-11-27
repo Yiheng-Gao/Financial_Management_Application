@@ -1,0 +1,49 @@
+/* Invoices.css */
+
+.invoices-container {
+  margin-left: 50px; /* Sidebar width */
+  padding-top: 60px; /* Header height */
+  padding-left: 20px; /* Additional padding for content */
+  padding-right: 20px; /* Additional padding for content */
+  padding-bottom: 20px; /* Space at the bottom */
+}
+
+.invoices-header {
+  margin-left: -20px; /* Align with the padded content */
+  position: sticky;
+  top: 0; /* Stick to the top */
+  background-color: #fff;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 7px 20px; /* Align padding with content */
+  width: calc(100% - 50px); /* Adjust width to account for sidebar */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.invoices-table-container {
+  max-height: calc(100vh - 60px - 20px - 20px); /* Viewport height minus header, top and bottom paddings */
+  overflow-y: auto;
+}
+
+.invoices-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.invoices-table th,
+.invoices-table td {
+  text-align: left;
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+}
+
+.invoices-table th {
+  background-color: #f8f9fa;
+  position: sticky;
+  top: 0; /* Keep headers visible */
+  z-index: 10; /* Ensure they are above other content */
+}
+
+/* If you have custom scrollbar styles in ManualJournals.css, apply them here as well. */

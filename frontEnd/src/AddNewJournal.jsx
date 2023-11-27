@@ -206,8 +206,7 @@ function AddNewJournal() {
           </tbody>
           <tfoot>
             <tr>
-              <td></td> {/* Empty cell for alignment */}
-              <td></td> {/* Empty cell for alignment */}
+              <td></td>
               <td>Total Debits: {totalDebits.toFixed(2)}</td>
               <td>Total Credits: {totalCredits.toFixed(2)}</td>
             </tr>

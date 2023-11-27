@@ -54,7 +54,32 @@ app.get("/accounts", (req, res) => {
 });
 
 
-// ...
+app.get("/invoices", (req, res) => {
+  const sql = `
+    SELECT InvoiceID, Date, Amount, CustomerName, DueDate, PaymentStatus
+    FROM invoices`; // Replace 'invoices' with your actual table or view name
+  db.query(sql, (err, results) => {
+    if (err) {
+      return res.status(500).json({ message: "Error querying the database for invoices", error: err });
+    } else {
+      // If you need to format the date or other fields, do so here
+      return res.json(results);
+    }
+  });
+});
+
+app.get("/customers", (req, res) => {
+  const sql = "SELECT DISTINCT CustomerID, CustomerName FROM invoices";
+  db.query(sql, (err, results) => {
+    if (err) {
+      return res.status(500).json({ message: "Error querying the database", error: err });
+    } else {
+      return res.json(results);
+    }
+  });
+});
+
+
 
 
 app.get("/balance-sheet", (req, res) => {
@@ -127,7 +152,7 @@ app.post("/add-transactions", (req, res) => {
             res.status(500).json({ message: "Error committing transaction", error: err });
           });
         }
-        res.status(200).json({ message: "Transactions added successfully" });
+        res.status(200).json({ message: "Transactions added successfully"});
       });
     }).catch(error => {
       db.rollback(() => {
@@ -136,6 +161,53 @@ app.post("/add-transactions", (req, res) => {
     });
   });
 });
+
+
+app.post("/add-invoice-transactions", (req, res) => {
+  const { invoiceItems, issueDate, customerID, note, dueDate } = req.body;
+  let invoiceTransactions = [];
+
+  db.beginTransaction(err => {
+    if (err) return res.status(500).json({ message: "Error starting transaction", error: err });
+
+    const transactionPromises = invoiceItems.map(item => {
+      return new Promise((resolve, reject) => {
+        const sqlInsertTransaction = `INSERT INTO transaction (AccountID, Date, Amount, Description, TransactionType) VALUES (?, ?, ?, ?, 2);`;
+        db.query(sqlInsertTransaction, [item.AccountID, issueDate, item.Amount, note], (error, results) => {
+          if (error) reject(error);
+          else if (item.AccountID === 14) { // Only push transactions with AccountID 14 for invoice entries
+            invoiceTransactions.push({ transactionID: results.insertId, customerID, item: item.Description, dueDate });
+          }
+          resolve();
+        });
+      });
+    });
+
+    Promise.all(transactionPromises)
+      .then(() => {
+        const invoicePromises = invoiceTransactions.map(({ transactionID, customerID, item, dueDate }) => {
+          return new Promise((resolve, reject) => {
+            const sqlInsertInvoice = `INSERT INTO invoice (TransactionID, CustomerID, InvoiceItem, DueDate, PaymentStatus) VALUES (?, ?, ?, ?, 'Unpaid');`;
+            db.query(sqlInsertInvoice, [transactionID, customerID, item, dueDate], (error) => {
+              if (error) reject(error);
+              else resolve();
+            });
+          });
+        });
+        return Promise.all(invoicePromises);
+      })
+      .then(() => {
+        db.commit(err => {
+          if (err) return db.rollback(() => res.status(500).json({ message: "Error committing transaction", error: err }));
+          res.status(200).json({ message: "Invoice transactions added successfully" });
+        });
+      })
+      .catch(error => {
+        db.rollback(() => res.status(500).json({ message: "Error inserting transactions", error }));
+      });
+  });
+});
+
 
 
 

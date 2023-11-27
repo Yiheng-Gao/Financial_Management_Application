@@ -7,6 +7,8 @@ import CashFlowStatement from './CashFlowStatement';
 import AccountTransactions from './AccountTransactions';
 import ManualJournals from './ManualJournals';
 import AddNewJournal from './AddNewJournal';
+import Invoices from './Invoices';
+import AddInvoice from './AddInvoice'
 
 class MainPage extends React.Component {
   
@@ -36,7 +38,15 @@ class MainPage extends React.Component {
       companyName: 'abc inc',
       transactions: []
     },
+    invoicesData: {
+      companyName: 'abc inc',
+      invoices: [] // Assuming this is the structure
+    }
   };
+
+  
+
+  
 
   setCurrentPage = (page) => {
     this.setState({ currentPage: page });
@@ -46,6 +56,10 @@ class MainPage extends React.Component {
     this.setState({ currentPage: 'addNewJournal' });
   };
 
+  setAddInvoicePage=()=>{
+    this.setState({currentPage:'AddInvoice'});
+  }
+
 
   componentDidMount() {
     this.fetchBalanceSheetData();
@@ -53,6 +67,7 @@ class MainPage extends React.Component {
     this.fetchCashFlowStatementData();
     this.fetchManualJournalsData();
     this.fetchUsername(); // Fetch the username when the component mounts
+    this.fetchInvoicesData();
 
     //current username display
     const username = localStorage.getItem('username');
@@ -79,6 +94,24 @@ class MainPage extends React.Component {
     this.setState({ isVip: true });
     // You might call an API endpoint here and then update the state accordingly
   };
+
+  fetchInvoicesData = () => {
+    fetch('http://localhost:8081/invoices')
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          invoicesData: {
+            ...this.state.invoicesData,
+            invoices: data
+          }
+        });
+      })
+      .catch(error => console.error('Fetch error:', error));
+  };
+  
+  
+
+  
 
   fetchManualJournalsData = () => {
     // Fetch manual journals data from an API or other source
@@ -154,7 +187,7 @@ class MainPage extends React.Component {
   };
   
   render() {
-    const { currentPage, balanceSheetData, incomeStatementData, cashFlowStatementData, accountTransactionsData, username, isVip, manualJournalsData } = this.state;
+    const { currentPage, balanceSheetData, incomeStatementData, cashFlowStatementData, accountTransactionsData, username, isVip, manualJournalsData, invoicesData } = this.state;
 
     return (
         <div className="main-container">
@@ -177,6 +210,8 @@ class MainPage extends React.Component {
             {currentPage === 'accountTransactions' && <AccountTransactions {...accountTransactionsData} />}
             {currentPage === 'manualJournals' && <ManualJournals {...manualJournalsData} setAddNewJournalPage={this.setAddNewJournalPage}/>}
             {currentPage === 'addNewJournal' && <AddNewJournal />}
+            {currentPage === 'invoices' && <Invoices {...invoicesData} setAddInvoicePage={this.setAddInvoicePage} />}
+            {currentPage==='AddInvoice'&&<AddInvoice />}
             {currentPage === null && <p>Welcome to the main page!</p>}
         </section>
       </div>
