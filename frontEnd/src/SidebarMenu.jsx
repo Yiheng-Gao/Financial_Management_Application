@@ -46,7 +46,23 @@ function SidebarMenu({ setCurrentPage, userType, userId }) {
     setCurrentPage('invoices');
     toggleDropdown('Sales');
   };
+
+  const handleBillsClick = () => {
+    setCurrentPage('bills');
+    toggleDropdown('Purchases');
+  };
+
+  const handleCustomersClick = () => {
+    setCurrentPage('customers');
+    toggleDropdown('Sales');
+  };
+
+  const handleSuppliersClick = () => {
+    setCurrentPage('suppliers');
+    toggleDropdown('Sales');
+  };
   
+
   const handleUpgradePrompt = () => {
     const wantsToUpgrade = window.confirm("Do you want to become a premium member?");
     if (wantsToUpgrade) {
@@ -81,6 +97,13 @@ function SidebarMenu({ setCurrentPage, userType, userId }) {
   };
  
   
+
+  const handleChartOfAccountsClick = () => {
+    setCurrentPage('accountChart');
+    toggleDropdown('Accountant');
+  };
+
+
   return (
     <div className="sidebar-menu">
       <div className="sidebar-header">Menu</div>
@@ -91,7 +114,7 @@ function SidebarMenu({ setCurrentPage, userType, userId }) {
         {openedDropdowns.includes('Accountant') && (
           <div className="sub-menu">
             <div className="sub-menu-item" onClick={handleManualJournalsClick}>Manual Journals</div>
-            <div className="sub-menu-item">Chart of Accounts</div>
+            <div className="sub-menu-item" onClick={handleChartOfAccountsClick}>Chart of Accounts</div>
           </div>
         )}
       </div>
@@ -103,7 +126,7 @@ function SidebarMenu({ setCurrentPage, userType, userId }) {
           <div className="sub-menu">
             <div className="sub-menu-item" onClick={handleBalanceSheetClick}>Balance Sheet</div>
             <div className="sub-menu-item" onClick={handleIncomeStatementClick}>Income Statement</div>
-            <div className="sub-menu-item" onClick={handleCashFlowStatementClick}>Cash Flow Statement</div>
+            {/* <div className="sub-menu-item" onClick={handleCashFlowStatementClick}>Cash Flow Statement</div> */}
             <div className="sub-menu-item" onClick={handleAccountTransactionsClick}>Account Transactions</div>
           </div>
         )}
@@ -111,18 +134,34 @@ function SidebarMenu({ setCurrentPage, userType, userId }) {
 
       <div className="menu-item">
         Sales
+
         {isPremium ? (
           <span className={`arrow ${openedDropdowns.includes('Sales') ? 'open' : ''}`} onClick={() => toggleDropdown('Sales')}>►</span>
         ) : (
           <img src={lockIcon} alt="Locked" className="lock-icon" onClick={handleUpgradePrompt} />
+
+        {openedDropdowns.includes('Sales') && (
+          <div className="sub-menu">
+            <div className="sub-menu-item" onClick={handleCustomersClick}>Customer</div>
+            <div className="sub-menu-item" onClick={handleInvoicesClick}>Invoices</div>
+          </div>
+
         )}
       </div>
       <div className="menu-item">
         Purchases
+
         {isPremium ? (
           <span className={`arrow ${openedDropdowns.includes('Purchases') ? 'open' : ''}`} onClick={() => toggleDropdown('Purchases')}>►</span>
         ) : (
           <img src={lockIcon} alt="Locked" className="lock-icon" onClick={handleUpgradePrompt} />
+
+        {openedDropdowns.includes('Purchases') && (
+          <div className="sub-menu">
+            <div className="sub-menu-item" onClick={handleSuppliersClick}>Supplier</div>
+            <div className="sub-menu-item" onClick={handleBillsClick}>Bills</div>
+          </div>
+
         )}
       </div>
       

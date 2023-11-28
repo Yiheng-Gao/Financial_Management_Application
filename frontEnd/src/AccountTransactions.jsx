@@ -1,7 +1,72 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './AccountTransactions.css';
 
-function AccountTransactions({ companyName, transactions }) {
+function AccountTransactions({ companyName }) {
+  const [transactions, setTransactions] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:8081/account-transactions')
+      .then(response => response.json())
+      .then(data => {
+        const formattedTransactions = data.map(transaction => formatTransactionRow(transaction));
+        setTransactions(formattedTransactions);
+  
+        // Calculate totals
+        let totalDebit = 0;
+        let totalCredit = 0;
+        formattedTransactions.forEach((transaction) => {
+          totalDebit += transaction.debit;
+          totalCredit += transaction.credit;
+        });
+  
+        setTotalDebit(totalDebit);
+        setTotalCredit(totalCredit);
+      })
+      .catch(error => console.error('Error fetching transactions:', error));
+  }, []);
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toISOString().split('T')[0]; // Converts to yyyy-mm-dd format
+  };
+
+  const formatTransactionRow = (transaction) => {
+    let debit = 0;
+    let credit = 0; 
+    const formattedDate = formatDate(transaction.Date);
+  
+    if (transaction.AccountTypeName === 'Asset' || transaction.AccountTypeName === 'Expense') {
+      if (transaction.Amount >= 0) {
+        debit = transaction.Amount;
+      } else {
+        credit = -transaction.Amount; // Convert to positive for display
+      }
+    } else if (transaction.AccountTypeName === 'Liability' || transaction.AccountTypeName === 'Equity' || transaction.AccountTypeName === 'Revenue') {
+      if (transaction.Amount >= 0) {
+        credit = transaction.Amount;
+      } else {
+        debit = -transaction.Amount; // Convert to positive for display
+      }
+    }
+  
+    return {
+      ...transaction,
+      Date: formattedDate,
+      debit: parseFloat(debit),
+    credit: parseFloat(credit)
+    };
+  };
+
+
+  let totalDebit = 0;
+  let totalCredit = 0;
+
+  transactions.forEach((transaction) => {
+    if (transaction.debit) totalDebit += parseFloat(transaction.debit);
+    if (transaction.credit) totalCredit += parseFloat(transaction.credit);
+  });
+  
+
   return (
     <div className="account-transactions-container">
       <h1>{companyName} Account Transactions</h1>
@@ -12,38 +77,44 @@ function AccountTransactions({ companyName, transactions }) {
       <table className="account-transactions-table">
         <thead>
           <tr>
+            <th>TRANSACTION#</th>
             <th>DATE</th>
             <th>ACCOUNT</th>
+            <th>ACCOUNT TYPE</th>
             <th>TRANSACTION DETAILS</th>
-            <th>TRANSACTION TYPE</th>
-            <th>TRANSACTION#</th>
-            <th>REFERENCE#</th>
             <th>DEBIT</th>
             <th>CREDIT</th>
-            <th>AMOUNT</th>
           </tr>
         </thead>
         <tbody>
           {transactions.length > 0 ? (
-            transactions.map((transaction, index) => (
-              <tr key={index}>
-                <td>{transaction.date}</td>
-                <td>{transaction.account}</td>
-                <td>{transaction.details}</td>
-                <td>{transaction.type}</td>
-                <td>{transaction.transactionNumber}</td>
-                <td>{transaction.referenceNumber}</td>
-                <td>{transaction.debit}</td>
-                <td>{transaction.credit}</td>
-                <td>{transaction.amount}</td>
-              </tr>
-            ))
+            transactions.map((transaction, index) => {
+              const formattedTransaction = formatTransactionRow(transaction);
+              return (
+                <tr key={index}>
+                  <td>{formattedTransaction.TransactionID}</td>
+                  <td>{formattedTransaction.Date}</td>
+                  <td>{formattedTransaction.AccountName}</td>
+                  <td>{formattedTransaction.AccountTypeName}</td>
+                  <td>{formattedTransaction.Description}</td>
+                  <td>{formattedTransaction.debit}</td>
+                  <td>{formattedTransaction.credit}</td>
+                </tr>
+              );
+            })
           ) : (
             <tr>
-              <td colSpan="9">No data to display</td>
+              <td colSpan="7">No data to display</td>
             </tr>
           )}
         </tbody>
+        <tfoot>
+          <tr>
+            <th colSpan="5">Total:</th>
+            <th>{totalDebit.toFixed(2)}</th>
+            <th>{totalCredit.toFixed(2)}</th>
+          </tr>
+        </tfoot>
       </table>
       <div className="add-temp-note-btn">
         <button>+ Add Temporary Note</button>

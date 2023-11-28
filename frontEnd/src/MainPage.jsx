@@ -8,14 +8,21 @@ import AccountTransactions from './AccountTransactions';
 import ManualJournals from './ManualJournals';
 import AddNewJournal from './AddNewJournal';
 import Invoices from './Invoices';
-import AddInvoice from './AddInvoice'
 import mainBackground from '/src/main.jfif';
+import AddInvoice from './AddInvoice';
+import Bills from './Bills';
+import AddBill from './AddBill';
+import Customers from './Customers';
+import Suppliers from './Suppliers';
+import AccountChart from './AccountChart';
+
 
 class MainPage extends React.Component {
   
 
 
   state = {
+    showAddAccountForm: false,
     currentPage: null,
     username: '',
     balanceSheetData: {
@@ -42,8 +49,22 @@ class MainPage extends React.Component {
     invoicesData: {
       companyName: 'abc inc',
       invoices: [] // Assuming this is the structure
+    },
+
+    billsData: {
+      companyName: 'abc inc',
+      bills: [] // Assuming this is the structure
+    },
+    customersData: {
+      customers: []
+    },
+
+    suppliersData: {
+      customers: []
     }
   };
+
+  
 
   
 
@@ -61,6 +82,10 @@ class MainPage extends React.Component {
     this.setState({currentPage:'AddInvoice'});
   }
 
+  setAddBillPage=()=>{
+    this.setState({currentPage:'AddBill'});
+  }
+
 
   componentDidMount() {
     this.fetchBalanceSheetData();
@@ -69,6 +94,7 @@ class MainPage extends React.Component {
     this.fetchManualJournalsData();
     this.fetchUsername(); // Fetch the username when the component mounts
     this.fetchInvoicesData();
+    this.fetchBillsData();
 
     //current username display
     const username = localStorage.getItem("username");
@@ -98,6 +124,8 @@ class MainPage extends React.Component {
     // You might call an API endpoint here and then update the state accordingly
   };
 
+  
+
   fetchInvoicesData = () => {
     fetch('http://localhost:8081/invoices')
       .then(response => response.json())
@@ -106,6 +134,20 @@ class MainPage extends React.Component {
           invoicesData: {
             ...this.state.invoicesData,
             invoices: data
+          }
+        });
+      })
+      .catch(error => console.error('Fetch error:', error));
+  };
+
+  fetchBillsData = () => {
+    fetch('http://localhost:8081/bills')
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          billsData: {
+            ...this.state.billsData,
+            bills: data
           }
         });
       })
@@ -190,10 +232,14 @@ class MainPage extends React.Component {
   };
   
   render() {
+
     const userId = localStorage.getItem('userId');
     const userType = localStorage.getItem('userType');
-    const { currentPage, balanceSheetData, incomeStatementData, cashFlowStatementData, accountTransactionsData, username, isVip, manualJournalsData, invoicesData } = this.state;
     const welcomeMessage = username ? `Welcome, ${username}! You are currently logged in as a ${isVip ? 'premium' : 'normal'} user.` : 'Welcome! Please sign in.';
+
+    const { currentPage, balanceSheetData, incomeStatementData, cashFlowStatementData, accountTransactionsData, username, isVip, manualJournalsData, invoicesData, billsData, customersData, suppliersData } = this.state;
+
+
     return (
         <div className="main-container">
             <header className="main-header">
@@ -216,7 +262,12 @@ class MainPage extends React.Component {
             {currentPage === 'manualJournals' && <ManualJournals {...manualJournalsData} setAddNewJournalPage={this.setAddNewJournalPage}/>}
             {currentPage === 'addNewJournal' && <AddNewJournal />}
             {currentPage === 'invoices' && <Invoices {...invoicesData} setAddInvoicePage={this.setAddInvoicePage} />}
+            {currentPage === 'bills' && <Bills {...billsData} setAddBillPage={this.setAddBillPage} />}
             {currentPage==='AddInvoice'&&<AddInvoice />}
+            {currentPage==='AddBill'&&<AddBill />}
+            {currentPage === 'customers' && <Customers {...customersData} />}
+            {currentPage === 'suppliers' && <Suppliers {...suppliersData} />}
+            {currentPage === 'accountChart' && <AccountChart />}
             {currentPage === null && <p>Welcome to the main page!</p>}
         </section>
       </div>

@@ -27,6 +27,7 @@ function BalanceSheet({ companyName, accounts }) {
   const equity = calculateTotal('Equity');
   const retainedEarning = totalRevenue-totalExpense;
   const totalEquity = equity+retainedEarning;
+  const accountTypesOrder = ['Asset', 'Liability', 'Equity'];
   const balanceCheck = totalAssets - totalLiabilities - totalEquity;
 
 
@@ -46,12 +47,12 @@ function BalanceSheet({ companyName, accounts }) {
           </tr>
         </thead>
         <tbody>
-        {Object.entries(groupedAccounts).map(([type, accounts]) => (
+          {accountTypesOrder.map(type => (
             <React.Fragment key={type}>
               <tr className="account-type-header">
                 <td colSpan="3">{type}</td>
               </tr>
-              {accounts.map(account => (
+              {groupedAccounts[type].map(account => (
                 <tr key={account.AccountName}>
                   <td></td>
                   <td>{account.AccountName}</td>
@@ -74,7 +75,6 @@ function BalanceSheet({ companyName, accounts }) {
               )}
               {type === 'Equity' && (
                 <>
-
                   <tr>
                     <td></td>
                     <td>Retained Earnings</td>
@@ -86,12 +86,11 @@ function BalanceSheet({ companyName, accounts }) {
                     <td>${totalEquity.toLocaleString()}</td>
                   </tr>
                 </>
-                
-                
               )}
             </React.Fragment>
           ))}
         </tbody>
+
       </table>
       <div className="add-temp-note-btn">
         <button>+ Add Temporary Note</button>

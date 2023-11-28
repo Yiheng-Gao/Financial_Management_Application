@@ -1,0 +1,56 @@
+/* Customers.css */
+
+.customers-container {
+  margin-left: 250px; /* Align with the sidebar width */
+  padding-top: 60px; /* Space below the header */
+  padding-left: 20px; /* Left padding for content */
+  padding-right: 20px; /* Right padding for content */
+  max-height: calc(100vh - 60px); /* Full height minus header */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.customers-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.customers-header h2 {
+  font-size: 24px; /* Adjust the font size as needed */
+  color: #333; /* Text color for the header */
+}
+
+.new-customer-btn {
+  padding: 8px 15px;
+  background-color: #4CAF50; /* Green background for add button */
+  color: white; /* White text */
+  border: none;
+  border-radius: 4px; /* Rounded corners */
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.new-customer-btn:hover {
+  background-color: #45a049; /* Darker shade on hover */
+}
+
+.customers-table {
+  width: 100%;
+  border-collapse: collapse; /* Collapse borders */
+}
+
+.customers-table th,
+.customers-table td {
+  text-align: left;
+  padding: 8px;
+  border-bottom: 1px solid #ddd; /* Light grey border */
+}
+
+.customers-table th {
+  background-color: #f8f9fa; /* Light grey background for header */
+  position: sticky;
+  top: 0; /* Stick to the top */
+  z-index: 10;
+}
+
