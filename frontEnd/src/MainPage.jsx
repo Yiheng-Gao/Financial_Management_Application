@@ -13,12 +13,15 @@ import Bills from './Bills';
 import AddBill from './AddBill';
 import Customers from './Customers';
 import Suppliers from './Suppliers';
+import AccountChart from './AccountChart';
+
 
 class MainPage extends React.Component {
   
 
 
   state = {
+    showAddAccountForm: false,
     currentPage: null,
     username: '',
     balanceSheetData: {
@@ -59,6 +62,8 @@ class MainPage extends React.Component {
       customers: []
     }
   };
+
+  
 
   
 
@@ -115,6 +120,8 @@ class MainPage extends React.Component {
     this.setState({ isVip: true });
     // You might call an API endpoint here and then update the state accordingly
   };
+
+  
 
   fetchInvoicesData = () => {
     fetch('http://localhost:8081/invoices')
@@ -251,6 +258,7 @@ class MainPage extends React.Component {
             {currentPage==='AddBill'&&<AddBill />}
             {currentPage === 'customers' && <Customers {...customersData} />}
             {currentPage === 'suppliers' && <Suppliers {...suppliersData} />}
+            {currentPage === 'accountChart' && <AccountChart />}
             {currentPage === null && <p>Welcome to the main page!</p>}
         </section>
       </div>

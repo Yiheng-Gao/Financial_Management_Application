@@ -33,7 +33,7 @@ app.get("/users", (req, res) => {
 app.get("/accounts", (req, res) => {
   const sql = `
     SELECT AccountID, AccountTypeName, AccountName
-    FROM balancesheetc
+    FROM accountchart
     ORDER BY AccountTypeName, AccountName;`;
 
   db.query(sql, (err, results) => {
@@ -52,6 +52,36 @@ app.get("/accounts", (req, res) => {
     }
   });
 });
+
+
+app.get("/account-chart", (req, res) => {
+  const sql = "SELECT AccountID, AccountName, AccountTypeName FROM accountchart";
+  db.query(sql, (err, results) => {
+    if (err) {
+      res.status(500).json({ message: "Error querying the database", error: err });
+    } else {
+      res.json(results);
+    }
+  });
+});
+
+
+
+app.post("/add-account", (req, res) => {
+  const { accountTypeID, companyID, accountName, accountNote } = req.body;
+
+  const sql = "INSERT INTO account (AccountTypeID, CompanyID, AccountName, AccountNote) VALUES (?, ?, ?, ?)";
+  
+  db.query(sql, [accountTypeID, companyID, accountName, accountNote], (err, result) => {
+    if (err) {
+      res.status(500).json({ message: "Error adding new account", error: err.message });
+    } else {
+      res.status(201).json({ message: "Account added successfully", accountID: result.insertId });
+    }
+  });
+});
+
+
 
 
 app.get("/invoices", (req, res) => {
@@ -354,6 +384,31 @@ app.post("/api/signup", (req, res) => {
     }
   });
 });
+
+app.get('/account-transactions', (req, res) => {
+  const sql = `
+    SELECT 
+      TransactionID, 
+      Date, 
+      AccountName, 
+      AccountTypeName, 
+      Description, 
+      Amount 
+    FROM 
+      transactionsheet 
+    ORDER BY 
+      Date DESC`;
+
+  db.query(sql, (err, results) => {
+    if (err) {
+      res.status(500).json({ message: 'Error querying the database', error: err });
+    } else {
+      res.json(results);
+    }
+  });
+});
+
+
 // Endpoint for user sign-in
 app.post('/api/signin', (req, res) => {
   const { username, password } = req.body;

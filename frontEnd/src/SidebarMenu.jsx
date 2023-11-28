@@ -58,6 +58,11 @@ function SidebarMenu({ setCurrentPage }) {
     toggleDropdown('Sales');
   };
   
+  const handleChartOfAccountsClick = () => {
+    setCurrentPage('accountChart');
+    toggleDropdown('Accountant');
+  };
+
   return (
     <div className="sidebar-menu">
       <div className="sidebar-header">Menu</div>
@@ -68,7 +73,7 @@ function SidebarMenu({ setCurrentPage }) {
         {openedDropdowns.includes('Accountant') && (
           <div className="sub-menu">
             <div className="sub-menu-item" onClick={handleManualJournalsClick}>Manual Journals</div>
-            <div className="sub-menu-item">Chart of Accounts</div>
+            <div className="sub-menu-item" onClick={handleChartOfAccountsClick}>Chart of Accounts</div>
           </div>
         )}
       </div>
@@ -80,7 +85,7 @@ function SidebarMenu({ setCurrentPage }) {
           <div className="sub-menu">
             <div className="sub-menu-item" onClick={handleBalanceSheetClick}>Balance Sheet</div>
             <div className="sub-menu-item" onClick={handleIncomeStatementClick}>Income Statement</div>
-            <div className="sub-menu-item" onClick={handleCashFlowStatementClick}>Cash Flow Statement</div>
+            {/* <div className="sub-menu-item" onClick={handleCashFlowStatementClick}>Cash Flow Statement</div> */}
             <div className="sub-menu-item" onClick={handleAccountTransactionsClick}>Account Transactions</div>
           </div>
         )}

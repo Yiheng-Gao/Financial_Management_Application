@@ -9,6 +9,8 @@
     max-width: 100%;
     margin: 20px auto;
     overflow-x: auto;
+    max-height: 90vh; 
+  overflow-y: auto;
   }
   
   .account-transactions-container h1 {
