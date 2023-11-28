@@ -10,7 +10,7 @@ app.use(express.json()); // Add this middleware to parse JSON bodies
 const db = mysql.createConnection({
   host: "127.0.0.1",
   user: "root",
-  password: "yg486653",
+  password: "20231111ABC",
   database: "accviewd",
 });
 
@@ -359,29 +359,35 @@ app.post("/add-bill-transactions", (req, res) => {
 
 // Endpoint for user sign-up
 app.post("/api/signup", (req, res) => {
-  const { username, password, email } = req.body; // Now including email in the destructure
-
-  // You would add more validation logic here, for username, password, and email
+  const { username, password, email, companyName } = req.body;
+  const defaultUserType = 'normal'; // Assuming 'normal' is your default user type
 
   // Hash the password
   bcrypt.hash(password, 10, (err, hash) => {
     if (err) {
-      res.status(500).send({ message: "Error hashing password" });
-    } else {
-      // Insert the new user into the database
-      const sql =
-        "INSERT INTO user (Username, password, UserEmail) VALUES (?, ?, ?)"; // Assuming your column names are correct
-      console.log("Received sign-up data:", req.body);
-      db.query(sql, [username, hash, email], (err, result) => {
-        if (err) {
-          console.error("Database error:", err);
-          res.status(500).send({ message: "Error registering user" });
-        } else {
-          console.log("User signed up:", result);
-          res.status(201).send({ message: "User registered successfully" });
-        }
-      });
+      return res.status(500).send({ message: "Error hashing password" });
     }
+
+    // Insert the new user into the database with the default user type
+    const insertUserSql = "INSERT INTO user (Username, password, UserEmail, UserType) VALUES (?, ?, ?, ?)";
+    db.query(insertUserSql, [username, hash, email, defaultUserType], (err, userResult) => {
+      if (err) {
+        console.error("Database error:", err);
+        return res.status(500).send({ message: "Error registering user" });
+      } else {
+        // Now insert the company name using the new user's ID
+        const userId = userResult.insertId;
+        const insertCompanySql = "INSERT INTO company (CompanyName, UserID) VALUES (?, ?)";
+        db.query(insertCompanySql, [companyName, userId], (err, companyResult) => {
+          if (err) {
+            console.error("Database error:", err);
+            return res.status(500).send({ message: "Error registering company" });
+          } else {
+            return res.status(201).send({ message: "User and company registered successfully" });
+          }
+        });
+      }
+    });
   });
 });
 
@@ -412,21 +418,28 @@ app.get('/account-transactions', (req, res) => {
 // Endpoint for user sign-in
 app.post('/api/signin', (req, res) => {
   const { username, password } = req.body;
-
-  // Fetch user from the database
-  const sql = "SELECT * FROM user WHERE Username = ?";
+  // Updated SQL to also select the Username
+  const sql = `
+    SELECT user.UserID, user.Username, user.UserType, user.password, company.CompanyID
+    FROM user
+    LEFT JOIN company ON user.UserID = company.UserID
+    WHERE user.Username = ?`;
   db.query(sql, [username], (err, result) => {
-    console.log(result);
     if (err) {
       res.status(500).send({ message: "Error fetching user" });
     } else if (result.length > 0) {
-      // Compare hashed password
       bcrypt.compare(password, result[0].password, (err, isMatch) => {
-        console.log(isMatch);
         if (err) {
           res.status(500).send({ message: "Error comparing passwords" });
         } else if (isMatch) {
-          res.send({ message: "Sign-in successful" });
+          // Include Username in the response along with UserId, CompanyId, and UserType
+          res.send({
+            message: "Sign-in successful",
+            username: result[0].Username, // Add this line to include the username
+            userId: result[0].UserID,
+            companyId: result[0].CompanyID,
+            userType: result[0].UserType
+          });
         } else {
           res.status(401).send({ message: "Invalid credentials" });
         }
@@ -434,6 +447,21 @@ app.post('/api/signin', (req, res) => {
     } else {
       res.status(404).send({ message: "User not found" });
     }
+  });
+});
+// Endpoint to upgrade to premium
+app.post('/api/upgrade-to-premium', (req, res) => {
+  const { userId } = req.body; // Retrieve userId from request body
+  const sqlUpdate = "UPDATE user SET UserType = 'premium' WHERE UserID = ?";
+  db.query(sqlUpdate, [userId], (err, result) => {
+    if (err) {
+      console.error("Database error:", err);
+      return res.status(500).send({ message: "Error upgrading user to premium" });
+    }
+    if (result.affectedRows === 0) {
+      return res.status(404).send({ message: "User not found" });
+    }
+    return res.status(200).send({ message: "User upgraded to premium successfully" });
   });
 });
 

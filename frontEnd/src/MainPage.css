@@ -1,5 +1,13 @@
 /* Global styles for the main container */
 .main-container {
+  background-image: url('/src/main.jfif'); /* Adjust path if necessary */
+  background-size: cover; /* Cover the entire space */
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  position: relative; /* Establish a positioning context */
+  z-index: 0; /* Behind all other positioned elements */
+  /* Rest of your styles... */
+  
   display: flex;
   flex-direction: row; /* Side by side layouttt */
   height: 100vh;
@@ -16,7 +24,7 @@
   align-items: center;
   justify-content: space-between;
   position: fixed; /* Header is fixed */
-  z-index: 2; /* Ensure it's above other content */
+  z-index: 1; /* Ensure it's above other content */
   top: 0; /* Align to the top */
 }
 
@@ -28,7 +36,7 @@
   position: fixed; /* If you want the sidebar to be fixed */
   top: 60px; /* Below the header */
   left: 0;
-  z-index: 1; /* Below the header */
+  z-index: 2; /* Below the header */
 }
 
 /* Content styles */
