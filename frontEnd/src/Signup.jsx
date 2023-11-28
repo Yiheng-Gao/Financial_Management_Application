@@ -3,7 +3,11 @@ import { useNavigate } from "react-router-dom";
 import "./SignUp.css";
 
 function SignUpPage() {
+
   const navigate = useNavigate();
+  // Add a new state for the company name
+  const [companyName, setCompanyName] = useState("");
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -23,7 +27,7 @@ function SignUpPage() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ username, password, email }),
+      body: JSON.stringify({ username, password, email, companyName}),
     })
       .then((response) => {
         if (response.ok) {
@@ -81,6 +85,14 @@ function SignUpPage() {
           id="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <label htmlFor="companyName">Company Name*</label>
+        <input
+          type="text"
+          id="companyName"
+          value={companyName}
+          onChange={(e) => setCompanyName(e.target.value)}
           required
         />
 

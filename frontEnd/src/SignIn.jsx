@@ -9,6 +9,7 @@ function SignInPage() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [userId, setUserId] = useState(null);
 
     const handleInputChange = (event) => {
         const { id, value } = event.target;
@@ -29,44 +30,49 @@ function SignInPage() {
     }
 
     const handleSubmit = async (event) => {
-        event.preventDefault(); // Prevent the default form submit action
-        // Send the `username` and `password` to your backend for authentication
-        fetch('http://localhost:8081/api/signin', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ username, password }),
+      event.preventDefault(); // Prevent the default form submit action
+      // Send the `username` and `password` to your backend for authentication
+      fetch("http://localhost:8081/api/signin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          if (data.message === "Sign-in successful") {
+            setUserId(data.userId); // Save the userId from the sign-in response
+            localStorage.setItem("username", data.username); // Save the username
+            localStorage.setItem("userId", data.userId); // Store userId
+            localStorage.setItem("companyId", data.companyId); // Store companyId
+            localStorage.setItem("userType", data.userType); // Store userType
+            // ... navigate to the main page
+            navigate('/main', { state: { username: data.username, userType: data.userType } });
+          } else {
+            // Handle sign-in failure
+            setErrorMessage(data.message || "Failed to sign in.");
+          }
         })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            if (data.message === "Sign-in successful") {
-                // Handle successful sign-in here
-                localStorage.setItem('username', username);
-                navigate('/main');
-            } else {
-                // Handle sign-in failure
-                setErrorMessage(data.message || 'Failed to sign in.');
-            }
-        })
-        .catch(error => {
-            setErrorMessage('Failed to sign in.');
+        .catch((error) => {
+          setErrorMessage("Failed to sign in.");
         });
     };
 
     const navigateToMainPage = () => {
-        if (!username) {
-            setErrorMessage('Please enter your username.');
-        } else if (!password) {
-            setErrorMessage('Please enter your password.');
-        } else {
-            console.log('Data to be sent:', { username, password });
-            // Assuming username and password validation is successful
-            localStorage.setItem('username', username); // Store the username
-            navigate('/main'); // Navigate to the main page
-        }
-    }
+      if (!username) {
+        setErrorMessage("Please enter your username.");
+      } else if (!password) {
+        setErrorMessage("Please enter your password.");
+      } else {
+        console.log("Data to be sent:", { username, password });
+        // Assuming username and password validation is successful
+        localStorage.setItem("username", username); // Store the username
+        window.location.reload();
+        navigate("/main"); // Navigate to the main page
+      }
+    };
 
     const closePage = () => {
         window.close();

@@ -109,3 +109,16 @@ body {
 .signup-button:hover {
   background-color: #368c22; /* Darker green on hover */
 }
+.menu-item.locked {
+  color: #cccccc;
+  cursor: not-allowed;
+}
+
+.menu-item.locked:hover {
+  color: #cccccc;
+  background-color: transparent;
+}
+
+.menu-item.locked .arrow {
+  display: none; /* Hide arrow for locked items */
+}

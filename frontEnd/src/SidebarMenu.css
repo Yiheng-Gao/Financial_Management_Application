@@ -8,12 +8,21 @@
   position: fixed; /* This ensures the sidebar stays in place */
   top: 60px; /* Offset by the header height */
   left: 0;
+  background-image: url('/src/icon.jpg'); /* Adjust path if necessary */
+  background-size: cover; /* Cover the entire space */
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  
 }
 
 .sidebar-header {
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 25px;
+  background-image: url('/src/icon.jpg'); /* Adjust path if necessary */
+  background-size: cover; /* Cover the entire space */
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
 }
 
 .menu-item {
@@ -45,4 +54,23 @@
 
 .arrow.open {
   transform: rotate(90deg); /* Rotates the arrow 90 degrees to point downwards */
+}
+.menu-item.locked {
+  color: #cccccc;
+  cursor: not-allowed;
+}
+
+.menu-item.locked:hover {
+  color: #cccccc;
+  background-color: transparent;
+}
+
+.menu-item.locked .arrow {
+  display: none; /* Hide arrow for locked items */
+}
+.lock-icon {
+  cursor: pointer;
+  width: 20px; /* Set the width of the lock icon */
+  height: 20px; /* Set the height of the lock icon */
+  margin-left: auto; /* Align the lock icon to the right */
 }

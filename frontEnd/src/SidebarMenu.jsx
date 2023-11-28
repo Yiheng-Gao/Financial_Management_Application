@@ -2,9 +2,13 @@ import React, { useState, useEffect } from 'react';
 import './SidebarMenu.css';
 import BalanceSheet from './BalanceSheet';
 import CashFlowStatement from './CashFlowStatement';
+import lockIcon from './lock-icon.gif';
 
-function SidebarMenu({ setCurrentPage }) {
+
+function SidebarMenu({ setCurrentPage, userType, userId }) {
   const [openedDropdowns, setOpenedDropdowns] = useState([]);
+  const [isPremium, setIsPremium] = useState(userType === 'premium');
+
   const toggleDropdown = (menuName) => {
     if (openedDropdowns.includes(menuName)) {
       setOpenedDropdowns(prev => prev.filter(item => item !== menuName));
@@ -43,6 +47,40 @@ function SidebarMenu({ setCurrentPage }) {
     toggleDropdown('Sales');
   };
   
+  const handleUpgradePrompt = () => {
+    const wantsToUpgrade = window.confirm("Do you want to become a premium member?");
+    if (wantsToUpgrade) {
+      // Ensure you get the userId from props or local storage
+      const userId = localStorage.getItem("userId");
+  
+      fetch("http://localhost:8081/api/upgrade-to-premium", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId }), // Send userId in the request body
+      })
+        .then((response) => {
+          if (!response.ok) {
+            // If the HTTP status code is not 2xx, throw an error to be caught by the catch block
+            throw new Error(`Server responded with status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log("Upgrade process here", data);
+          setIsPremium(true); // Update the state to reflect the premium status
+          localStorage.setItem('userType', 'premium'); // Update userType in localStorage
+          alert("You are now a premium member!");
+        })
+        .catch((error) => {
+          console.error("Error upgrading to premium:", error);
+          alert("There was a problem upgrading your account. " + error.message);
+        });
+    }
+  };
+ 
+  
   return (
     <div className="sidebar-menu">
       <div className="sidebar-header">Menu</div>
@@ -71,25 +109,20 @@ function SidebarMenu({ setCurrentPage }) {
         )}
       </div>
 
-      <div className="menu-item" onClick={() => toggleDropdown('Sales')}>
+      <div className="menu-item">
         Sales
-        <span className={`arrow ${openedDropdowns.includes('Sales') ? 'open' : ''}`}>►</span>
-        {openedDropdowns.includes('Sales') && (
-          <div className="sub-menu">
-            <div className="sub-menu-item">Customer</div>
-            <div className="sub-menu-item" onClick={handleInvoicesClick}>Invoices</div>
-          </div>
+        {isPremium ? (
+          <span className={`arrow ${openedDropdowns.includes('Sales') ? 'open' : ''}`} onClick={() => toggleDropdown('Sales')}>►</span>
+        ) : (
+          <img src={lockIcon} alt="Locked" className="lock-icon" onClick={handleUpgradePrompt} />
         )}
       </div>
-
-      <div className="menu-item" onClick={() => toggleDropdown('Purchases')}>
+      <div className="menu-item">
         Purchases
-        <span className={`arrow ${openedDropdowns.includes('Purchases') ? 'open' : ''}`}>►</span>
-        {openedDropdowns.includes('Purchases') && (
-          <div className="sub-menu">
-            <div className="sub-menu-item">Vendors</div>
-            <div className="sub-menu-item">Expenses</div>
-          </div>
+        {isPremium ? (
+          <span className={`arrow ${openedDropdowns.includes('Purchases') ? 'open' : ''}`} onClick={() => toggleDropdown('Purchases')}>►</span>
+        ) : (
+          <img src={lockIcon} alt="Locked" className="lock-icon" onClick={handleUpgradePrompt} />
         )}
       </div>
       

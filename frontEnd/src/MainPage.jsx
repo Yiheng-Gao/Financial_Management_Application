@@ -9,6 +9,7 @@ import ManualJournals from './ManualJournals';
 import AddNewJournal from './AddNewJournal';
 import Invoices from './Invoices';
 import AddInvoice from './AddInvoice'
+import mainBackground from '/src/main.jfif';
 
 class MainPage extends React.Component {
   
@@ -70,9 +71,11 @@ class MainPage extends React.Component {
     this.fetchInvoicesData();
 
     //current username display
-    const username = localStorage.getItem('username');
+    const username = localStorage.getItem("username");
+    const userType = localStorage.getItem("userType");
+    const isVip = userType === "premium"; // Determine VIP status based on userType
     if (username) {
-        this.setState({ username });
+      this.setState({ username, isVip });
     }
   }
 
@@ -187,21 +190,23 @@ class MainPage extends React.Component {
   };
   
   render() {
+    const userId = localStorage.getItem('userId');
+    const userType = localStorage.getItem('userType');
     const { currentPage, balanceSheetData, incomeStatementData, cashFlowStatementData, accountTransactionsData, username, isVip, manualJournalsData, invoicesData } = this.state;
-
+    const welcomeMessage = username ? `Welcome, ${username}! You are currently logged in as a ${isVip ? 'premium' : 'normal'} user.` : 'Welcome! Please sign in.';
     return (
         <div className="main-container">
             <header className="main-header">
                 <h1>Financial Management</h1>
+                
                 <div className="user-info">
-                    {username && <span>Welcome, {username}</span>}
-                    {!isVip && username && <span className="vip-icon" onClick={this.handleUpgradeToVip}>⭐</span>}
-                    {isVip && <span className="vip-icon-upgraded">🌟</span>} {/* Different VIP icon */}
-                    <button onClick={this.handleLogout} className="logout-button">Log Out</button>
+                <span>{welcomeMessage}</span>
+          {isVip && <span className="vip-icon-upgraded">🌟</span>} {/* Display VIP icon if user is premium */}
+          <button onClick={this.handleLogout} className="logout-button">Log Out</button>
                 </div>
             </header>
         <aside className="sidebar">
-          <SidebarMenu setCurrentPage={this.setCurrentPage} />
+        <SidebarMenu setCurrentPage={this.setCurrentPage} userId={userId} userType={userType} />
         </aside>
         <section className="content">
             {currentPage === 'balanceSheet' && <BalanceSheet {...balanceSheetData} />}
