@@ -5,7 +5,8 @@ function AccountTransactions({ companyName }) {
   const [transactions, setTransactions] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:8081/account-transactions')
+    const companyID = parseInt(localStorage.getItem('companyId'), 10);
+    fetch(`http://localhost:8081/account-transactions?companyID=${companyID}`)
       .then(response => response.json())
       .then(data => {
         const formattedTransactions = data.map(transaction => formatTransactionRow(transaction));

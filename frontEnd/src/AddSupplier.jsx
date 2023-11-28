@@ -15,10 +15,11 @@ function AddSupplier({ onClose }) {
     }
 
     try {
+      const companyID = parseInt(localStorage.getItem('companyId'), 10); // Retrieve companyID from localStorage
       const response = await fetch('http://localhost:8081/create-supplier', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ supplierName, supplierEmail })
+        body: JSON.stringify({ supplierName, supplierEmail, companyID }) // Include companyID in the request body
       });
       const data = await response.json();
 

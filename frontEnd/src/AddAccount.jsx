@@ -23,9 +23,11 @@ function AddAccount({ onSave, onClose }) {
       return;
     }
 
+    const companyID = parseInt(localStorage.getItem('companyId'), 10);
+
     const accountData = {
       accountTypeID,
-      companyID: 3,
+      companyID: companyID,
       accountName,
       accountNote
     };

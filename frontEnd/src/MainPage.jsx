@@ -26,16 +26,16 @@ class MainPage extends React.Component {
     currentPage: null,
     username: '',
     balanceSheetData: {
-      companyName: 'abc inc',
+      companyName: localStorage.getItem('companyName'),
       accounts: [],
       isVip: false,
     },
     incomeStatementData: {
-      companyName: 'abc inc',
+      companyName: localStorage.getItem('companyName'),
       accounts: []
     },
     cashFlowStatementData: { 
-      companyName: 'abc inc',
+      companyName: localStorage.getItem('companyName'),
       cashFlows: {
         Operating: [],
         Investing: [],
@@ -43,16 +43,16 @@ class MainPage extends React.Component {
       }
     },
     accountTransactionsData: {
-      companyName: 'abc inc',
+      companyName: localStorage.getItem('companyName'),
       transactions: []
     },
     invoicesData: {
-      companyName: 'abc inc',
+      companyName: localStorage.getItem('companyName'),
       invoices: [] // Assuming this is the structure
     },
 
     billsData: {
-      companyName: 'abc inc',
+      companyName: localStorage.getItem('companyName'),
       bills: [] // Assuming this is the structure
     },
     customersData: {
@@ -127,7 +127,8 @@ class MainPage extends React.Component {
   
 
   fetchInvoicesData = () => {
-    fetch('http://localhost:8081/invoices')
+    const companyID = parseInt(localStorage.getItem('companyId'), 10); // Retrieve companyID from localStorage
+    fetch(`http://localhost:8081/invoices?companyID=${companyID}`)
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -139,9 +140,11 @@ class MainPage extends React.Component {
       })
       .catch(error => console.error('Fetch error:', error));
   };
+  
 
   fetchBillsData = () => {
-    fetch('http://localhost:8081/bills')
+    const companyID = parseInt(localStorage.getItem('companyId'), 10); // Retrieve companyID from localStorage
+    fetch(`http://localhost:8081/bills?companyID=${companyID}`)
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -155,12 +158,14 @@ class MainPage extends React.Component {
   };
   
   
+  
 
   
 
   fetchManualJournalsData = () => {
-    // Fetch manual journals data from an API or other source
-    fetch('http://localhost:8081/manual-journals')
+    const companyID = parseInt(localStorage.getItem('companyId'), 10); // Retrieve companyID from localStorage
+  
+    fetch(`http://localhost:8081/manual-journals?companyID=${companyID}`)
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -172,9 +177,11 @@ class MainPage extends React.Component {
       })
       .catch(error => console.error('Fetch error:', error));
   };
+  
 
   fetchBalanceSheetData = () => {
-    fetch('http://localhost:8081/balance-sheet')
+    const companyId = parseInt(localStorage.getItem('companyId'), 10); // Retrieve companyID from localStorage
+    fetch(`http://localhost:8081/balance-sheet?companyID=${companyId}`)
       .then(response => response.json())
       .then(data => {
         this.setState(prevState => ({
@@ -186,9 +193,11 @@ class MainPage extends React.Component {
       })
       .catch(error => console.error('Fetch error:', error));
   };
+  
 
   fetchIncomeStatementData = () => {
-    fetch('http://localhost:8081/income-statement')
+    const companyId = parseInt(localStorage.getItem('companyId'), 10);
+    fetch(`http://localhost:8081/income-statement?companyID=${companyId}`)
       .then(response => response.json())
       .then(data => {
         this.setState(prevState => ({
@@ -217,8 +226,9 @@ class MainPage extends React.Component {
   };
 
   fetchAccountTransactionsData = () => {
-    // Fetch account transactions data from an API or other source
-    fetch('http://localhost:8081/account-transactions')
+    const companyID =parseInt(localStorage.getItem('companyId'),10) ; // Retrieve CompanyID from localStorage
+    console.log(companyID);
+    fetch(`http://localhost:8081/account-transactions?companyID=${companyID}`)
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -231,13 +241,14 @@ class MainPage extends React.Component {
       .catch(error => console.error('Fetch error:', error));
   };
   
+  
   render() {
 
     const userId = localStorage.getItem('userId');
     const userType = localStorage.getItem('userType');
-    const welcomeMessage = username ? `Welcome, ${username}! You are currently logged in as a ${isVip ? 'premium' : 'normal'} user.` : 'Welcome! Please sign in.';
 
     const { currentPage, balanceSheetData, incomeStatementData, cashFlowStatementData, accountTransactionsData, username, isVip, manualJournalsData, invoicesData, billsData, customersData, suppliersData } = this.state;
+    const welcomeMessage = username ? `Welcome, ${username}! You are currently logged in as a ${isVip ? 'premium' : 'normal'} user.` : 'Welcome! Please sign in.';
 
 
     return (

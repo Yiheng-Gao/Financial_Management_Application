@@ -10,7 +10,7 @@ app.use(express.json()); // Add this middleware to parse JSON bodies
 const db = mysql.createConnection({
   host: "127.0.0.1",
   user: "root",
-  password: "20231111ABC",
+  password: "yg486653",
   database: "accviewd",
 });
 
@@ -31,12 +31,15 @@ app.get("/users", (req, res) => {
 // server.js
 
 app.get("/accounts", (req, res) => {
+  const companyID = parseInt(req.query.companyID, 10); // Convert to integer
+
   const sql = `
     SELECT AccountID, AccountTypeName, AccountName
     FROM accountchart
+    WHERE CompanyID = ?
     ORDER BY AccountTypeName, AccountName;`;
 
-  db.query(sql, (err, results) => {
+  db.query(sql, [companyID], (err, results) => {
     if (err) {
       return res.status(500).json({ message: "Error querying the database", error: err });
     } else {
@@ -54,9 +57,12 @@ app.get("/accounts", (req, res) => {
 });
 
 
+
 app.get("/account-chart", (req, res) => {
-  const sql = "SELECT AccountID, AccountName, AccountTypeName FROM accountchart";
-  db.query(sql, (err, results) => {
+  const companyID = parseInt(req.query.companyID, 10); 
+
+  const sql = "SELECT AccountID, AccountName, AccountTypeName FROM accountchart WHERE CompanyID = ?";
+  db.query(sql, [companyID], (err, results) => {
     if (err) {
       res.status(500).json({ message: "Error querying the database", error: err });
     } else {
@@ -85,10 +91,12 @@ app.post("/add-account", (req, res) => {
 
 
 app.get("/invoices", (req, res) => {
+  const companyID = parseInt(req.query.companyID, 10); // Retrieve the companyID from query parameters
   const sql = `
     SELECT InvoiceID, Date, Amount, CustomerName, DueDate, PaymentStatus
-    FROM invoices`; // Replace 'invoices' with your actual table or view name
-  db.query(sql, (err, results) => {
+    FROM invoices
+    WHERE CompanyID = ?`; // Replace 'invoices' with your actual table or view name
+  db.query(sql, [companyID], (err, results) => {
     if (err) {
       return res.status(500).json({ message: "Error querying the database for invoices", error: err });
     } else {
@@ -99,11 +107,14 @@ app.get("/invoices", (req, res) => {
 });
 
 
+
 app.get("/bills", (req, res) => {
+  const companyID = parseInt(req.query.companyID, 10); // Retrieve the companyID from query parameters
   const sql = `
     SELECT BillID, Date, Amount, SupplierName, DueDate, PaymentStatus
-    FROM bills`;
-  db.query(sql, (err, results) => {
+    FROM bills
+    WHERE CompanyID = ?`; // Adjust to match your actual table or view name
+  db.query(sql, [companyID], (err, results) => {
     if (err) {
       return res.status(500).json({ message: "Error querying the database for bills", error: err });
     } else {
@@ -112,9 +123,14 @@ app.get("/bills", (req, res) => {
   });
 });
 
+
 app.get("/customers", (req, res) => {
-  const sql = "SELECT DISTINCT CustomerID, CustomerName FROM customer";
-  db.query(sql, (err, results) => {
+  const companyID = parseInt(req.query.companyID, 10); // Retrieve the companyID from query parameters
+  const sql = `
+    SELECT DISTINCT CustomerID, CustomerName 
+    FROM customer 
+    WHERE CompanyID = ?`;
+  db.query(sql, [companyID], (err, results) => {
     if (err) {
       return res.status(500).json({ message: "Error querying the database", error: err });
     } else {
@@ -123,9 +139,12 @@ app.get("/customers", (req, res) => {
   });
 });
 
+
 app.get("/customers-page", (req, res) => {
-  const sql = "SELECT CustomerID, CustomerName, CustomerEmail FROM customer";
-  db.query(sql, (err, results) => {
+  const companyID = parseInt(req.query.companyID, 10); // Convert to integer
+
+  const sql = "SELECT CustomerID, CustomerName, CustomerEmail FROM customer WHERE CompanyID = ?";
+  db.query(sql, [companyID], (err, results) => {
     if (err) {
       return res.status(500).json({ message: "Error querying the database", error: err });
     }
@@ -133,10 +152,11 @@ app.get("/customers-page", (req, res) => {
   });
 });
 
+
 app.post("/create-customer", (req, res) => {
-  const { customerName, customerEmail } = req.body;
-  const sql = "INSERT INTO customer (CustomerName, CustomerEmail) VALUES (?, ?)";
-  db.query(sql, [customerName, customerEmail], (err, result) => {
+  const { customerName, customerEmail, companyID } = req.body;
+  const sql = "INSERT INTO customer (CustomerName, CustomerEmail, CompanyID) VALUES (?, ?, ?)";
+  db.query(sql, [customerName, customerEmail, companyID], (err, result) => {
     if (err) {
       res.status(500).json({ message: "Error adding new customer", error: err });
     } else {
@@ -145,10 +165,11 @@ app.post("/create-customer", (req, res) => {
   });
 });
 
+
 app.post("/create-supplier", (req, res) => {
-  const { supplierName, supplierEmail } = req.body;
-  const sql = "INSERT INTO supplier (SupplierName, SupplierEmail) VALUES (?, ?)";
-  db.query(sql, [supplierName, supplierEmail], (err, result) => {
+  const { supplierName, supplierEmail, companyID } = req.body;
+  const sql = "INSERT INTO supplier (SupplierName, SupplierEmail, CompanyID) VALUES (?, ?, ?)";
+  db.query(sql, [supplierName, supplierEmail, companyID], (err, result) => {
     if (err) {
       res.status(500).json({ message: "Error adding new supplier", error: err });
     } else {
@@ -158,9 +179,12 @@ app.post("/create-supplier", (req, res) => {
 });
 
 
+
 app.get("/suppliers-page", (req, res) => {
-  const sql = "SELECT SupplierID, SupplierName, SupplierEmail FROM supplier";
-  db.query(sql, (err, results) => {
+  const companyID = parseInt(req.query.companyID, 10); // Convert to integer
+
+  const sql = "SELECT SupplierID, SupplierName, SupplierEmail FROM supplier WHERE CompanyID = ?";
+  db.query(sql, [companyID], (err, results) => {
     if (err) {
       return res.status(500).json({ message: "Error querying the database", error: err });
     }
@@ -169,9 +193,14 @@ app.get("/suppliers-page", (req, res) => {
 });
 
 
+
 app.get("/suppliers", (req, res) => {
-  const sql = "SELECT DISTINCT SupplierID, SupplierName FROM supplier";
-  db.query(sql, (err, results) => {
+  const companyID = parseInt(req.query.companyID, 10); // Retrieve the companyID from query parameters
+  const sql = `
+    SELECT DISTINCT SupplierID, SupplierName 
+    FROM supplier 
+    WHERE CompanyID = ?`;
+  db.query(sql, [companyID], (err, results) => {
     if (err) {
       return res.status(500).json({ message: "Error querying the database", error: err });
     } else {
@@ -183,36 +212,48 @@ app.get("/suppliers", (req, res) => {
 
 
 
+
 app.get("/balance-sheet", (req, res) => {
-  const sql =
-    "SELECT AccountTypeName, AccountName, acctotalamount FROM balancesheetc"; // Modify according to your table structure
-  db.query(sql, (err, data) => {
+  const companyID = parseInt(req.query.companyID, 10); // Retrieve the companyID from the query parameters
+  const sql = `
+    SELECT AccountTypeName, AccountName, acctotalamount 
+    FROM balancesheetc 
+    WHERE CompanyID = ?`;
+
+  db.query(sql, [companyID], (err, data) => {
     if (err) {
-      return res.json(err);
+      return res.status(500).json(err);
     } else {
       return res.json(data);
     }
   });
 });
 
+
 app.get("/income-statement", (req, res) => {
+  const companyID = parseInt(req.query.companyID, 10);
   const sql =
-    "SELECT AccountTypeName, AccountName, acctotalamount FROM balancesheetc"; // Modify according to your table structure
-  db.query(sql, (err, data) => {
-    if (err) {
-      return res.json(err);
-    } else {
-      return res.json(data);
-    }
-  });
+    `SELECT AccountTypeName, AccountName, acctotalamount 
+    FROM balancesheetc 
+    WHERE CompanyID = ?`; // Modify according to your table structure
+    db.query(sql, [companyID], (err, data) => {
+      if (err) {
+        return res.status(500).json(err);
+      } else {
+        return res.json(data);
+      }
+    });
 });
 
 
 app.get("/manual-journals", (req, res) => {
+  const companyID = parseInt(req.query.companyID, 10); // Convert to integer
+
   const sql = `
     SELECT TransactionID, Date, Amount, Description
-    FROM transactionsheet`; // Ensure this matches the actual view and columns in your database
-  db.query(sql, (err, data) => {
+    FROM transactionsheet
+    WHERE CompanyID = ?`; // Filter by companyID
+  db.query(sql, [companyID], (err, data) => {
     if (err) {
       return res.status(500).json({ message: "Error querying the database", error: err });
     } else {
@@ -220,6 +261,7 @@ app.get("/manual-journals", (req, res) => {
     }
   });
 });
+
 
 // ... (Other parts of the server remain unchanged)
 
@@ -265,7 +307,7 @@ app.post("/add-transactions", (req, res) => {
 
 
 app.post("/add-invoice-transactions", (req, res) => {
-  const { invoiceItems, issueDate, customerID, note, dueDate } = req.body;
+  const { invoiceItems, issueDate, customerID, note, dueDate, revenueAccountId } = req.body;
   let invoiceTransactions = [];
 
   db.beginTransaction(err => {
@@ -276,7 +318,7 @@ app.post("/add-invoice-transactions", (req, res) => {
         const sqlInsertTransaction = `INSERT INTO transaction (AccountID, Date, Amount, Description, TransactionType) VALUES (?, ?, ?, ?, 2);`;
         db.query(sqlInsertTransaction, [item.AccountID, issueDate, item.Amount, note], (error, results) => {
           if (error) reject(error);
-          else if (item.AccountID === 14) { // Only push transactions with AccountID 14 for invoice entries
+          else if (item.AccountID === revenueAccountId) { // Only push transactions with AccountID 14 for invoice entries
             invoiceTransactions.push({ transactionID: results.insertId, customerID, item: item.Description, dueDate });
           }
           resolve();
@@ -310,8 +352,53 @@ app.post("/add-invoice-transactions", (req, res) => {
 });
 
 
+app.get("/account-ids", (req, res) => {
+  const companyID = parseInt(req.query.companyID, 10);
+  const sql = `
+    SELECT AccountID, AccountName 
+    FROM account 
+    WHERE CompanyID = ? AND (AccountName = 'Account Receivable' OR AccountName = 'Revenue')`;
+
+  db.query(sql, [companyID], (err, results) => {
+    if (err) {
+      res.status(500).json({ message: "Error querying the database", error: err });
+    } else {
+      const accountIds = results.reduce((acc, row) => {
+        acc[row.AccountName] = row.AccountID;
+        return acc;
+      }, {});
+      res.json(accountIds);
+    }
+  });
+});
+
+
+app.get("/bill-account-ids", (req, res) => {
+  const companyID = parseInt(req.query.companyID, 10);
+  const sql = `
+    SELECT AccountID, AccountName 
+    FROM account 
+    WHERE (AccountName = 'Account Payable' OR AccountName = 'Expense') 
+      AND CompanyID = ?`;
+  
+  db.query(sql, [companyID], (err, results) => {
+    if (err) {
+      return res.status(500).json({ message: "Error querying the database", error: err });
+    } else {
+      const accountIds = {};
+      results.forEach(row => {
+        accountIds[row.AccountName] = row.AccountID;
+      });
+      return res.json(accountIds);
+    }
+  });
+});
+
+
+
+
 app.post("/add-bill-transactions", (req, res) => {
-  const { billItems, issueDate, supplierID, note, dueDate } = req.body;
+  const { billItems, issueDate, supplierID, note, dueDate, expenseAccountId } = req.body;
   let billTransactions = [];
 
   db.beginTransaction(err => {
@@ -322,7 +409,7 @@ app.post("/add-bill-transactions", (req, res) => {
         const sqlInsertTransaction = `INSERT INTO transaction (AccountID, Date, Amount, Description, TransactionType) VALUES (?, ?, ?, ?, 3);`;
         db.query(sqlInsertTransaction, [item.AccountID, issueDate, item.Amount, note], (error, results) => {
           if (error) reject(error);
-          else if (item.AccountID === 11) { 
+          else if (item.AccountID === expenseAccountId) { 
             billTransactions.push({ transactionID: results.insertId, supplierID, item: item.Description, dueDate });
           }
           resolve();
@@ -392,6 +479,8 @@ app.post("/api/signup", (req, res) => {
 });
 
 app.get('/account-transactions', (req, res) => {
+  const companyID = parseInt(req.query.companyID, 10); // Convert the CompanyID to an integer
+
   const sql = `
     SELECT 
       TransactionID, 
@@ -402,10 +491,12 @@ app.get('/account-transactions', (req, res) => {
       Amount 
     FROM 
       transactionsheet 
+    WHERE 
+      CompanyID = ?
     ORDER BY 
       Date DESC`;
 
-  db.query(sql, (err, results) => {
+  db.query(sql, [companyID], (err, results) => {
     if (err) {
       res.status(500).json({ message: 'Error querying the database', error: err });
     } else {
@@ -415,12 +506,13 @@ app.get('/account-transactions', (req, res) => {
 });
 
 
+
 // Endpoint for user sign-in
 app.post('/api/signin', (req, res) => {
   const { username, password } = req.body;
   // Updated SQL to also select the Username
   const sql = `
-    SELECT user.UserID, user.Username, user.UserType, user.password, company.CompanyID
+    SELECT user.UserID, user.Username, user.UserType, user.password, company.CompanyID, company.CompanyName
     FROM user
     LEFT JOIN company ON user.UserID = company.UserID
     WHERE user.Username = ?`;
@@ -438,7 +530,8 @@ app.post('/api/signin', (req, res) => {
             username: result[0].Username, // Add this line to include the username
             userId: result[0].UserID,
             companyId: result[0].CompanyID,
-            userType: result[0].UserType
+            userType: result[0].UserType, 
+            companyName: result[0].CompanyName
           });
         } else {
           res.status(401).send({ message: "Invalid credentials" });

@@ -11,7 +11,9 @@ function AccountChart() {
   }, []);
 
   const fetchAccounts = () => {
-    fetch('http://localhost:8081/account-chart')
+    const companyID = parseInt(localStorage.getItem('companyId'), 10); // Retrieve companyID from localStorage
+
+    fetch(`http://localhost:8081/account-chart?companyID=${companyID}`)
       .then(response => response.json())
       .then(data => setAccounts(data))
       .catch(error => console.error('Error fetching accounts:', error));

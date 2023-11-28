@@ -15,10 +15,11 @@ function AddCustomer({ onClose }) {
     }
 
     try {
+      const companyID = parseInt(localStorage.getItem('companyId'), 10);
       const response = await fetch('http://localhost:8081/create-customer', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ customerName, customerEmail })
+        body: JSON.stringify({ customerName, customerEmail, companyID }) // Include companyID in the request body
       });
       const data = await response.json();
 

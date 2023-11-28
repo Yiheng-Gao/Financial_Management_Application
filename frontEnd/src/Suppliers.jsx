@@ -7,11 +7,14 @@ function Suppliers() {
   const [showAddForm, setShowAddForm] = useState(false);
 
   useEffect(() => {
-    fetch('http://localhost:8081/suppliers-page')
+    const companyID = parseInt(localStorage.getItem('companyId'), 10); // Retrieve companyID from localStorage
+  
+    fetch(`http://localhost:8081/suppliers-page?companyID=${companyID}`)
       .then(response => response.json())
       .then(data => setSuppliers(data))
       .catch(error => console.error('Error fetching suppliers:', error));
   }, []);
+  
 
   return (
     <div className="customers-container">

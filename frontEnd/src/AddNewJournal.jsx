@@ -12,13 +12,16 @@ function AddNewJournal() {
   const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
-    fetch('http://localhost:8081/accounts')
+    const companyID = parseInt(localStorage.getItem('companyId'), 10); // Retrieve companyID from localStorage
+  
+    fetch(`http://localhost:8081/accounts?companyID=${companyID}`)
       .then(response => response.json())
       .then(data => {
         setAccountsByType(data);
       })
       .catch(error => console.error('Error fetching accounts:', error));
   }, []);
+  
 
   const handleAddRow = () => {
     setRows([...rows, initialRow])

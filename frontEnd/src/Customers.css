@@ -7,6 +7,7 @@
   padding-right: 20px; /* Right padding for content */
   max-height: calc(100vh - 60px); /* Full height minus header */
   overflow-y: auto; /* Enable vertical scrolling */
+  background-color: #fff;
 }
 
 .customers-header {

@@ -14,16 +14,26 @@ function AddInvoice() {
   const [errorMessage, setErrorMessage] = useState('');
 const [successMessage, setSuccessMessage] = useState('');
 const [customers, setCustomers] = useState([]);
+const [accountIds, setAccountIds] = useState({});
 
 
 useEffect(() => {
-  fetch('http://localhost:8081/customers')
+  const companyID = parseInt(localStorage.getItem('companyId'), 10); // Retrieve companyID from localStorage
+  fetch(`http://localhost:8081/customers?companyID=${companyID}`)
     .then(response => response.json())
     .then(data => {
       setCustomers(data);
     })
     .catch(error => console.error('Error fetching customers:', error));
+
+    fetch(`http://localhost:8081/account-ids?companyID=${companyID}`)
+      .then(response => response.json())
+      .then(data => {
+        setAccountIds(data);
+      })
+      .catch(error => console.error('Error fetching account IDs:', error));
 }, []);
+
 
 
   const handleAddItem = () => {
@@ -53,6 +63,8 @@ useEffect(() => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const accountReceivableId = accountIds['Account Receivable'];
+    const revenueAccountId = accountIds['Revenue'];
   
     // Prepare invoice data
     const invoiceData = {
@@ -60,15 +72,16 @@ useEffect(() => {
       dueDate: dueDate,
       customerID: selectedCustomer.CustomerID,
       note: note,
+      revenueAccountId: revenueAccountId,
       invoiceItems: invoiceItems.flatMap(item => ([
         {
-          AccountID: 5, // Fixed AccountID as specified for the first transaction
+          AccountID: accountReceivableId, 
           Date: issueDate,
           Amount: item.amount,
           Description: note
         },
         {
-          AccountID: 14, // Fixed AccountID as specified for the second transaction
+          AccountID: revenueAccountId, 
           Date: issueDate,
           Amount: item.amount,
           Description: note

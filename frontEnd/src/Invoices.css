@@ -6,6 +6,7 @@
   padding-left: 20px; /* Additional padding for content */
   padding-right: 20px; /* Additional padding for content */
   padding-bottom: 20px; /* Space at the bottom */
+  background-color: #fff;
 }
 
 .invoices-header {

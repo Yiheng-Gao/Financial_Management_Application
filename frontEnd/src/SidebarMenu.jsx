@@ -140,7 +140,7 @@ function SidebarMenu({ setCurrentPage, userType, userId }) {
         ) : (
           <img src={lockIcon} alt="Locked" className="lock-icon" onClick={handleUpgradePrompt} />
 
-        {openedDropdowns.includes('Sales') && (
+        )}{openedDropdowns.includes('Sales') && (
           <div className="sub-menu">
             <div className="sub-menu-item" onClick={handleCustomersClick}>Customer</div>
             <div className="sub-menu-item" onClick={handleInvoicesClick}>Invoices</div>
@@ -155,8 +155,8 @@ function SidebarMenu({ setCurrentPage, userType, userId }) {
           <span className={`arrow ${openedDropdowns.includes('Purchases') ? 'open' : ''}`} onClick={() => toggleDropdown('Purchases')}>►</span>
         ) : (
           <img src={lockIcon} alt="Locked" className="lock-icon" onClick={handleUpgradePrompt} />
-
-        {openedDropdowns.includes('Purchases') && (
+        
+        )}{openedDropdowns.includes('Purchases') && (
           <div className="sub-menu">
             <div className="sub-menu-item" onClick={handleSuppliersClick}>Supplier</div>
             <div className="sub-menu-item" onClick={handleBillsClick}>Bills</div>

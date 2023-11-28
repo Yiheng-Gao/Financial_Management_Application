@@ -48,6 +48,7 @@ function SignInPage() {
             localStorage.setItem("userId", data.userId); // Store userId
             localStorage.setItem("companyId", data.companyId); // Store companyId
             localStorage.setItem("userType", data.userType); // Store userType
+            localStorage.setItem("companyName", data.companyName);
             // ... navigate to the main page
             navigate('/main', { state: { username: data.username, userType: data.userType } });
           } else {

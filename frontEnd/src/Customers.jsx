@@ -7,16 +7,14 @@ function Customers() {
   const [showAddForm, setShowAddForm] = useState(false);
 
   useEffect(() => {
-    fetchCustomers();
-  }, []);
-
-  const fetchCustomers = () => {
-    fetch('http://localhost:8081/customers-page')
+    const companyID = parseInt(localStorage.getItem('companyId'), 10); // Retrieve companyID from localStorage
+  
+    fetch(`http://localhost:8081/customers-page?companyID=${companyID}`)
       .then(response => response.json())
       .then(data => setCustomers(data))
       .catch(error => console.error('Error fetching customers:', error));
-  };
-
+  }, []);
+  
   return (
     <div className="customers-container">
       <header className="customers-header">

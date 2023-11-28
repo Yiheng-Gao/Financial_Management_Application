@@ -14,16 +14,24 @@ function AddBill() {
   const [errorMessage, setErrorMessage] = useState('');
 const [successMessage, setSuccessMessage] = useState('');
 const [suppliers, setSuppliers] = useState([]);
+const [accountIds, setAccountIds] = useState({});
 
 
 useEffect(() => {
-  fetch('http://localhost:8081/suppliers')
+  const companyID = parseInt(localStorage.getItem('companyId'), 10); // Retrieve companyID from localStorage
+  fetch(`http://localhost:8081/suppliers?companyID=${companyID}`)
     .then(response => response.json())
     .then(data => {
       setSuppliers(data);
     })
     .catch(error => console.error('Error fetching suppliers:', error));
+
+    fetch(`http://localhost:8081/bill-account-ids?companyID=${companyID}`)
+      .then(response => response.json())
+      .then(data => setAccountIds(data))
+      .catch(error => console.error('Error fetching account IDs:', error));
 }, []);
+
 
 
   const handleAddItem = () => {
@@ -53,6 +61,8 @@ useEffect(() => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const payableAccountId = accountIds["Account Payable"];
+    const expenseAccountId = accountIds["Expense"];
   
   
     const billData = {
@@ -60,15 +70,16 @@ useEffect(() => {
       dueDate: dueDate,
       supplierID: selectedSupplier.SupplierID,
       note: note,
+      expenseAccountId: expenseAccountId,
       billItems: billItems.flatMap(item => ([
         {
-          AccountID: 2, 
+          AccountID: payableAccountId, 
           Date: issueDate,
           Amount: item.amount,
           Description: note
         },
         {
-          AccountID: 11, 
+          AccountID: expenseAccountId, 
           Date: issueDate,
           Amount: item.amount,
           Description: note
