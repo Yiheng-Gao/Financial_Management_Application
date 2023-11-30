@@ -18,12 +18,24 @@ function IncomeStatement({ companyName, accounts }) {
   const totalRevenue = calculateTotal('Revenue');
   const netProfit = totalRevenue - totalExpense;
 
+  const netProfitMargin = totalRevenue === 0 ? 0 : (netProfit / totalRevenue) * 100;
+  let profitability = "good";
+
+  if (netProfitMargin < 0) {
+    profitability = "bad";
+  } else if (netProfitMargin < 20) {
+    profitability = "medium";
+  }
+
+  const formattedNetProfitMargin = netProfitMargin.toFixed(2)
+
+
   return (
     <div className="balance-sheet-container">
       <h1>{companyName} Income Statement</h1>
       <div className="basis-and-date">
         <p>Basis: Accrual</p>
-        <p>As of 2023/11/10</p>
+        <p>As of 2023/11/30</p>
       </div>
       <table>
         <thead>
@@ -72,9 +84,11 @@ function IncomeStatement({ companyName, accounts }) {
           </tr>
         </tbody>
       </table>
-      <div className="add-temp-note-btn">
-        <button>+ Add Temporary Note</button>
+      <div className="profitability-note">
+        <p>Your Net Profit Margin is {formattedNetProfitMargin}%. Your profitability is {profitability}.</p>
       </div>
+      
+
     </div>
   );
 }

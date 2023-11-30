@@ -30,13 +30,24 @@ function BalanceSheet({ companyName, accounts }) {
   const accountTypesOrder = ['Asset', 'Liability', 'Equity'];
   const balanceCheck = totalAssets - totalLiabilities - totalEquity;
 
+  const debtRatio = totalLiabilities / totalAssets * 100;
+  let financialHealth = "good";
+
+  if (debtRatio > 100) {
+    financialHealth = "bad";
+  } else if (debtRatio >= 50) {
+    financialHealth = "medium";
+  }
+
+  const formattedDebtRatio = debtRatio.toFixed(2);
+
 
   return (
     <div className="balance-sheet-container">
       <h1>{companyName} Balance Sheet</h1>
       <div className="basis-and-date">
         <p>Basis: Accrual</p>
-        <p>As of 2023/11/10</p>
+        <p>As of 2023/11/30</p>
       </div>
       <table>
         <thead>
@@ -90,10 +101,9 @@ function BalanceSheet({ companyName, accounts }) {
             </React.Fragment>
           ))}
         </tbody>
-
       </table>
-      <div className="add-temp-note-btn">
-        <button>+ Add Temporary Note</button>
+      <div className="financial-health-note">
+        <p>Your Debt Ratio is {formattedDebtRatio}%. Your financial health is {financialHealth}.</p>
       </div>
     </div>
   );

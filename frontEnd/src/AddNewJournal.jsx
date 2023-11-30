@@ -156,11 +156,14 @@ function AddNewJournal() {
         </div>
         <table className="add-new-journal-table">
           <thead>
+            <tr><b>Tips: </b>Asset and Expense will increase by debit.<br/> Liability, Revenue, and Equity will increase by credit. </tr>
+            <br/>
             <tr>
               <th>Account</th>
               <th>Debit</th>
               <th>Credit</th>   
             </tr>
+            
           </thead>
           <tbody>
             {rows.map((row, index) => (

@@ -127,7 +127,7 @@ function SidebarMenu({ setCurrentPage, userType, userId }) {
             <div className="sub-menu-item" onClick={handleBalanceSheetClick}>Balance Sheet</div>
             <div className="sub-menu-item" onClick={handleIncomeStatementClick}>Income Statement</div>
             {/* <div className="sub-menu-item" onClick={handleCashFlowStatementClick}>Cash Flow Statement</div> */}
-            <div className="sub-menu-item" onClick={handleAccountTransactionsClick}>Account Transactions</div>
+            <div className="sub-menu-item" onClick={handleAccountTransactionsClick}>Transaction Sheet</div>
           </div>
         )}
       </div>

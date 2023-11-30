@@ -357,7 +357,7 @@ app.get("/account-ids", (req, res) => {
   const sql = `
     SELECT AccountID, AccountName 
     FROM account 
-    WHERE CompanyID = ? AND (AccountName = 'Account Receivable' OR AccountName = 'Revenue')`;
+    WHERE CompanyID = ? AND (AccountName = 'Account Receivable' OR AccountName = 'Revenue from sale')`;
 
   db.query(sql, [companyID], (err, results) => {
     if (err) {
@@ -378,7 +378,7 @@ app.get("/bill-account-ids", (req, res) => {
   const sql = `
     SELECT AccountID, AccountName 
     FROM account 
-    WHERE (AccountName = 'Account Payable' OR AccountName = 'Expense') 
+    WHERE (AccountName = 'Account Payable' OR AccountName = 'General Expense') 
       AND CompanyID = ?`;
   
   db.query(sql, [companyID], (err, results) => {

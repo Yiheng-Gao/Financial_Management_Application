@@ -70,7 +70,7 @@ function AccountTransactions({ companyName }) {
 
   return (
     <div className="account-transactions-container">
-      <h1>{companyName} Account Transactions</h1>
+      <h1>{companyName}Transaction Sheet</h1>
       <div className="account-transactions-basis">
         <p>Basis: Accrual</p>
         <p>From 2023-11-01 To 2023-11-30</p>
