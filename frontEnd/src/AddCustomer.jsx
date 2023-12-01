@@ -19,7 +19,7 @@ function AddCustomer({ onClose }) {
       const response = await fetch('http://localhost:8081/create-customer', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ customerName, customerEmail, companyID }) // Include companyID in the request body
+        body: JSON.stringify({ customerName, customerEmail, companyID }) 
       });
       const data = await response.json();
 
@@ -28,7 +28,7 @@ function AddCustomer({ onClose }) {
       }
 
       alert('Customer added successfully');
-      onClose(); // Close the AddCustomer form
+      onClose(); 
     } catch (error) {
       setErrorMessage(error.message);
     }

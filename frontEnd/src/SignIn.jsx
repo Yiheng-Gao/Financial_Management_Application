@@ -18,7 +18,7 @@ function SignInPage() {
         } else if (id === "password") {
             setPassword(value);
         }
-        setErrorMessage(''); // Clear error message upon any input change
+        setErrorMessage(''); 
     }
 
     const togglePasswordVisibility = () => {
@@ -26,12 +26,11 @@ function SignInPage() {
     };
 
     const navigateToSignUp = () => {
-        navigate('/signup'); // This route should be set up in your React Routerr
+        navigate('/signup'); 
     }
 
     const handleSubmit = async (event) => {
-      event.preventDefault(); // Prevent the default form submit action
-      // Send the `username` and `password` to your backend for authentication
+      event.preventDefault(); 
       fetch("http://localhost:8081/api/signin", {
         method: "POST",
         headers: {
@@ -43,16 +42,15 @@ function SignInPage() {
         .then((data) => {
           console.log(data);
           if (data.message === "Sign-in successful") {
-            setUserId(data.userId); // Save the userId from the sign-in response
-            localStorage.setItem("username", data.username); // Save the username
-            localStorage.setItem("userId", data.userId); // Store userId
-            localStorage.setItem("companyId", data.companyId); // Store companyId
-            localStorage.setItem("userType", data.userType); // Store userType
+            setUserId(data.userId); 
+            localStorage.setItem("username", data.username); 
+            localStorage.setItem("userId", data.userId); 
+            localStorage.setItem("companyId", data.companyId); 
+            localStorage.setItem("userType", data.userType); 
             localStorage.setItem("companyName", data.companyName);
-            // ... navigate to the main page
             navigate('/main', { state: { username: data.username, userType: data.userType } });
           } else {
-            // Handle sign-in failure
+
             setErrorMessage(data.message || "Failed to sign in.");
           }
         })
@@ -68,10 +66,10 @@ function SignInPage() {
         setErrorMessage("Please enter your password.");
       } else {
         console.log("Data to be sent:", { username, password });
-        // Assuming username and password validation is successful
-        localStorage.setItem("username", username); // Store the username
+
+        localStorage.setItem("username", username); 
         window.location.reload();
-        navigate("/main"); // Navigate to the main page
+        navigate("/main"); 
       }
     };
 

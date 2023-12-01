@@ -18,7 +18,7 @@ const [accountIds, setAccountIds] = useState({});
 
 
 useEffect(() => {
-  const companyID = parseInt(localStorage.getItem('companyId'), 10); // Retrieve companyID from localStorage
+  const companyID = parseInt(localStorage.getItem('companyId'), 10); 
   fetch(`http://localhost:8081/customers?companyID=${companyID}`)
     .then(response => response.json())
     .then(data => {
@@ -66,7 +66,7 @@ useEffect(() => {
     const accountReceivableId = accountIds['Account Receivable'];
     const revenueAccountId = accountIds['Revenue'];
   
-    // Prepare invoice data
+ 
     const invoiceData = {
       issueDate: issueDate,
       dueDate: dueDate,
@@ -117,7 +117,6 @@ useEffect(() => {
   
 
   const handleCancel = () => {
-    // Cancel logic here
   };
 
   return (

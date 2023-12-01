@@ -1,39 +1,39 @@
-/* SignIn.css */
+
 
 body {
   display: flex;
-  align-items: center; /* Center vertically */
-  justify-content: center; /* Center horizontally */
-  min-height: 100vh; /* Full viewport height */
-  margin: 0; /* Remove default margin */
-  background-color: #f4f7f6; /* Light grey background for a softer look */
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Modern font */
+  align-items: center; 
+  justify-content: center; 
+  min-height: 100vh; 
+  margin: 0; 
+  background-color: #f4f7f6;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 .page {
   width: 100%;
-  max-width: 400px; /* Maximum width of the sign-in box */
+  max-width: 400px; 
   padding: 40px;
-  background: #ffffff; /* Pure white background for the form */
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* Subtle shadow for depth */
-  border-radius: 8px; /* Rounded corners */
+  background: #ffffff; 
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+  border-radius: 8px; 
 }
 
 .header {
-  text-align: center; /* Center logo and title */
+  text-align: center; 
   margin-bottom: 40px;
 }
 
 .logo {
-  width: 100px; /* Fixed logo size */
+  width: 100px; 
   height: auto;
-  margin-bottom: 10px; /* Space below the logo */
+  margin-bottom: 10px; 
 }
 
 .welcome-text {
-  margin-bottom: 40px; /* More space after the welcome text */
-  color: #333; /* Dark grey text for better readability */
-  font-size: 1.2rem; /* Larger font size for the welcome message */
+  margin-bottom: 40px; 
+  color: #333; 
+  font-size: 1.2rem; 
 }
 
 .form-container {
@@ -43,40 +43,40 @@ body {
 
 .form-container label {
   margin-bottom: 5px;
-  color: #606770; /* Subdued label color */
-  font-size: 0.9rem; /* Smaller label size */
+  color: #606770; 
+  font-size: 0.9rem; 
 }
 
 .form-container input,
 .form-container select {
   padding: 15px;
-  border: 1px solid #ccd0d5; /* Lighter border color */
-  border-radius: 8px; /* Match border-radius with the page */
+  border: 1px solid #ccd0d5; 
+  border-radius: 8px; 
   font-size: 1rem;
-  margin-bottom: 20px; /* Increase space between inputs */
+  margin-bottom: 20px; 
 }
 
 .form-container button:not(.show-password-button) {
   padding: 15px;
-  border: none; /* Remove border for buttons */
-  border-radius: 8px; /* Match border-radius with the page */
+  border: none; 
+  border-radius: 8px; 
   font-size: 1rem;
-  background-color: #1877f2; /* Facebook blue for the primary button */
+  background-color: #1877f2; 
   color: #fff;
-  transition: background-color 0.3s; /* Transition for hover effect */
+  transition: background-color 0.3s;
 }
 
 .form-container button:not(.show-password-button):hover {
-  background-color: #165c9b; /* Darker blue on hover */
+  background-color: #165c9b; 
 }
 
 .error-message {
-  background-color: #ffdddd; /* Light red background for error messages */
-  border: 1px solid #f44336; /* Red border for error messages */
-  color: #f44336; /* Red text for error messages */
+  background-color: #ffdddd; 
+  border: 1px solid #f44336; 
+  color: #f44336; 
   padding: 10px;
-  border-radius: 8px; /* Rounded corners for error message box */
-  margin-bottom: 20px; /* Space before the form starts */
+  border-radius: 8px; 
+  margin-bottom: 20px; 
 }
 
 .password-container {
@@ -89,25 +89,25 @@ body {
 
 .show-password-button {
   position: absolute;
-  right: 10px; /* Align to the right of the input, inside the padding */
-  top: 10px; /* Center vertically */
-  background-color: transparent; /* No background for an icon-like button */
-  color: #1877f2; /* Same color as the sign-in button for consistency */
-  height: auto; /* Adjust height based on content */
-  line-height: 1; /* Align text better with the baseline */
-  border-radius: 5px; /* Slightly rounded corners for the icon button */
+  right: 10px; 
+  top: 10px; 
+  background-color: transparent; 
+  color: #1877f2; 
+  height: auto; 
+  line-height: 1; 
+  border-radius: 5px; 
 }
 
 .show-password-button:hover {
-  color: #165c9b; /* Darker blue on hover */
+  color: #165c9b;
 }
 
 .signup-button {
-  background-color: #42b72a; /* A positive, secondary action color */
+  background-color: #42b72a;
 }
 
 .signup-button:hover {
-  background-color: #368c22; /* Darker green on hover */
+  background-color: #368c22; 
 }
 .menu-item.locked {
   color: #cccccc;
@@ -120,5 +120,5 @@ body {
 }
 
 .menu-item.locked .arrow {
-  display: none; /* Hide arrow for locked items */
+  display: none; 
 }

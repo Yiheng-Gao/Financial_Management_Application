@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './AddAccount.css'; // Ensure you have the CSS file
+import './AddAccount.css'; 
 
 function AddAccount({ onSave, onClose }) {
   const [accountName, setAccountName] = useState('');

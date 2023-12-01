@@ -21,7 +21,6 @@ function SignUpPage() {
       return;
     }
     console.log("Sending sign-up data:", { username, password, email });
-    // Assuming the back-end endpoint for user sign-up is '/api/signup'
     fetch("http://localhost:8081/api/signup", {
       method: "POST",
       headers: {
@@ -31,10 +30,8 @@ function SignUpPage() {
     })
       .then((response) => {
         if (response.ok) {
-          // Handle successful sign up here
           navigate("/signin");
         } else {
-          // Handle errors here
           response.json().then((data) => {
             setErrorMessage(data.message);
           });
@@ -45,7 +42,7 @@ function SignUpPage() {
       });
   };
 
-  // Navigate back to sign-in page
+
   const navigateToSignIn = () => {
     navigate("/signin");
   };

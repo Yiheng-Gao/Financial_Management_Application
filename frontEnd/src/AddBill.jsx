@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './AddInvoice.css'; // This CSS file will need to be created
+import './AddInvoice.css'; 
 
 const initialBillItem = { item: '', amount: 0 };
 
@@ -18,7 +18,7 @@ const [accountIds, setAccountIds] = useState({});
 
 
 useEffect(() => {
-  const companyID = parseInt(localStorage.getItem('companyId'), 10); // Retrieve companyID from localStorage
+  const companyID = parseInt(localStorage.getItem('companyId'), 10); 
   fetch(`http://localhost:8081/suppliers?companyID=${companyID}`)
     .then(response => response.json())
     .then(data => {
@@ -115,7 +115,6 @@ useEffect(() => {
   
 
   const handleCancel = () => {
-    // Cancel logic here
   };
 
   return (

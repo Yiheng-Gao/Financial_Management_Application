@@ -1,5 +1,5 @@
 import React from 'react';
-import './Invoices.css'; // You can use the same styles as ManualJournals.css if they are similar
+import './Invoices.css'; 
 
 function Invoices({ invoices, setAddInvoicePage }) {
   function formatDate(isoDateString) {
@@ -11,7 +11,7 @@ function Invoices({ invoices, setAddInvoicePage }) {
     <div className="invoices-container">
       <header className="invoices-header">
         <h2>Invoices</h2>
-        <button className="new-invoice-btn" onClick={setAddInvoicePage}>+ New Invoice</button> {/* Implement onClick if needed */}
+        <button className="new-invoice-btn" onClick={setAddInvoicePage}>+ New Invoice</button> 
       </header>
       <div className="invoices-table-container">
         <table className="invoices-table">

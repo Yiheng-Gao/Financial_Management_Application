@@ -5,15 +5,15 @@ body, html {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: 'Open Sans', sans-serif; /* Example: using a Google Font */
-    background-color: #f4f7f6; /* Soft background color */
+    font-family: 'Open Sans', sans-serif; 
+    background-color: #f4f7f6; 
     background-image: linear-gradient(to right top, #dfe9f3, #e8eff9, #f1f5ff, #fafbff, #ffffff); /* Example: Gradient background */
 }
 
 .landing-container {
     text-align: center;
-    max-width: 350px; /* Restrict max width for better appearance on larger screens */
-    padding: 20px; /* Padding for small screens */
+    max-width: 350px; 
+    padding: 20px; 
 }
 
 .logo {
@@ -46,10 +46,10 @@ body, html {
 
 .landing-container button:hover {
     background-color: #0056b3;
-    transform: translateY(-2px); /* Slight lift effect on hover */
+    transform: translateY(-2px); 
 }
 
-/* Responsive Design for smaller screens */
+
 @media (max-width: 600px) {
     .landing-container {
         max-width: 100%;

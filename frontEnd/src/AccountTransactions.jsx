@@ -28,7 +28,7 @@ function AccountTransactions({ companyName }) {
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return date.toISOString().split('T')[0]; // Converts to yyyy-mm-dd format
+    return date.toISOString().split('T')[0];
   };
 
   const formatTransactionRow = (transaction) => {
@@ -40,13 +40,13 @@ function AccountTransactions({ companyName }) {
       if (transaction.Amount >= 0) {
         debit = transaction.Amount;
       } else {
-        credit = -transaction.Amount; // Convert to positive for display
+        credit = -transaction.Amount; 
       }
     } else if (transaction.AccountTypeName === 'Liability' || transaction.AccountTypeName === 'Equity' || transaction.AccountTypeName === 'Revenue') {
       if (transaction.Amount >= 0) {
         credit = transaction.Amount;
       } else {
-        debit = -transaction.Amount; // Convert to positive for display
+        debit = -transaction.Amount;
       }
     }
   

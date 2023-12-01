@@ -48,12 +48,12 @@ class MainPage extends React.Component {
     },
     invoicesData: {
       companyName: localStorage.getItem('companyName'),
-      invoices: [] // Assuming this is the structure
+      invoices: [] 
     },
 
     billsData: {
       companyName: localStorage.getItem('companyName'),
-      bills: [] // Assuming this is the structure
+      bills: [] 
     },
     customersData: {
       customers: []
@@ -92,42 +92,38 @@ class MainPage extends React.Component {
     this.fetchIncomeStatementData();
     this.fetchCashFlowStatementData();
     this.fetchManualJournalsData();
-    this.fetchUsername(); // Fetch the username when the component mounts
+    this.fetchUsername(); 
     this.fetchInvoicesData();
     this.fetchBillsData();
 
-    //current username display
+  
     const username = localStorage.getItem("username");
     const userType = localStorage.getItem("userType");
-    const isVip = userType === "premium"; // Determine VIP status based on userType
+    const isVip = userType === "premium"; 
     if (username) {
       this.setState({ username, isVip });
     }
   }
 
   fetchUsername = () => {
-    // Logic to fetch the username, assuming it is stored in localStorage or a similar place
-    const username = localStorage.getItem('username'); // Replace with actual logic to get the username
+    const username = localStorage.getItem('username'); 
     this.setState({ username });
   };
 
   handleLogout = () => {
-    // Logic for logout; it could involve clearing the localStorage, etc.
-    localStorage.clear(); // Example of clearing localStorage
-    this.props.navigate('/signin'); // Redirect to sign-in page
+    localStorage.clear(); 
+    this.props.navigate('/signin'); 
   };
 
   handleUpgradeToVip = () => {
-    // Logic to handle the upgrade to VIP status
     console.log('Upgrade to VIP clicked');
     this.setState({ isVip: true });
-    // You might call an API endpoint here and then update the state accordingly
   };
 
   
 
   fetchInvoicesData = () => {
-    const companyID = parseInt(localStorage.getItem('companyId'), 10); // Retrieve companyID from localStorage
+    const companyID = parseInt(localStorage.getItem('companyId'), 10); 
     fetch(`http://localhost:8081/invoices?companyID=${companyID}`)
       .then(response => response.json())
       .then(data => {
@@ -143,7 +139,7 @@ class MainPage extends React.Component {
   
 
   fetchBillsData = () => {
-    const companyID = parseInt(localStorage.getItem('companyId'), 10); // Retrieve companyID from localStorage
+    const companyID = parseInt(localStorage.getItem('companyId'), 10); 
     fetch(`http://localhost:8081/bills?companyID=${companyID}`)
       .then(response => response.json())
       .then(data => {
@@ -163,7 +159,7 @@ class MainPage extends React.Component {
   
 
   fetchManualJournalsData = () => {
-    const companyID = parseInt(localStorage.getItem('companyId'), 10); // Retrieve companyID from localStorage
+    const companyID = parseInt(localStorage.getItem('companyId'), 10); 
   
     fetch(`http://localhost:8081/manual-journals?companyID=${companyID}`)
       .then(response => response.json())
@@ -180,7 +176,7 @@ class MainPage extends React.Component {
   
 
   fetchBalanceSheetData = () => {
-    const companyId = parseInt(localStorage.getItem('companyId'), 10); // Retrieve companyID from localStorage
+    const companyId = parseInt(localStorage.getItem('companyId'), 10); 
     fetch(`http://localhost:8081/balance-sheet?companyID=${companyId}`)
       .then(response => response.json())
       .then(data => {
@@ -211,7 +207,6 @@ class MainPage extends React.Component {
   };
 
   fetchCashFlowStatementData = () => {
-    // Optional: Fetch cash flow statement data from an API or other source
     fetch('http://localhost:8081/cash-flow-statement')
       .then(response => response.json())
       .then(data => {
@@ -226,7 +221,7 @@ class MainPage extends React.Component {
   };
 
   fetchAccountTransactionsData = () => {
-    const companyID =parseInt(localStorage.getItem('companyId'),10) ; // Retrieve CompanyID from localStorage
+    const companyID =parseInt(localStorage.getItem('companyId'),10) ; 
     console.log(companyID);
     fetch(`http://localhost:8081/account-transactions?companyID=${companyID}`)
       .then(response => response.json())
@@ -258,7 +253,7 @@ class MainPage extends React.Component {
                 
                 <div className="user-info">
                 <span>{welcomeMessage}</span>
-          {isVip && <span className="vip-icon-upgraded">🌟</span>} {/* Display VIP icon if user is premium */}
+          {isVip && <span className="vip-icon-upgraded">🌟</span>} 
           <button onClick={this.handleLogout} className="logout-button">Log Out</button>
                 </div>
             </header>

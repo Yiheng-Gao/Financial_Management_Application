@@ -7,7 +7,7 @@ function Customers() {
   const [showAddForm, setShowAddForm] = useState(false);
 
   useEffect(() => {
-    const companyID = parseInt(localStorage.getItem('companyId'), 10); // Retrieve companyID from localStorage
+    const companyID = parseInt(localStorage.getItem('companyId'), 10); 
   
     fetch(`http://localhost:8081/customers-page?companyID=${companyID}`)
       .then(response => response.json())

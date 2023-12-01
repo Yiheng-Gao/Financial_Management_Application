@@ -27,7 +27,7 @@ function CashFlowStatement({ companyName, cashFlows }) {
           </tr>
         </thead>
         <tbody>
-          {/* Cash Flow From Operating Activities */}
+
           <tr className="account-type-header">
             <td colSpan="3">Cash Flow From Operating Activities</td>
           </tr>
@@ -44,7 +44,7 @@ function CashFlowStatement({ companyName, cashFlows }) {
             <td>${calculateNetCashFlow('Operating').toLocaleString()}</td>
           </tr>
   
-          {/* Cash Flow From Investing Activities */}
+
           <tr className="account-type-header">
             <td colSpan="3">Cash Flow From Investing Activities</td>
           </tr>
@@ -59,7 +59,6 @@ function CashFlowStatement({ companyName, cashFlows }) {
             <td>${calculateNetCashFlow('Investing').toLocaleString()}</td>
           </tr>
   
-          {/* Cash Flow From Financing Activities */}
           <tr className="account-type-header">
             <td colSpan="3">Cash Flow From Financing Activities</td>
           </tr>

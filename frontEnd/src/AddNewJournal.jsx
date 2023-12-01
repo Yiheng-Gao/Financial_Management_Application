@@ -12,7 +12,7 @@ function AddNewJournal() {
   const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
-    const companyID = parseInt(localStorage.getItem('companyId'), 10); // Retrieve companyID from localStorage
+    const companyID = parseInt(localStorage.getItem('companyId'), 10); 
   
     fetch(`http://localhost:8081/accounts?companyID=${companyID}`)
       .then(response => response.json())
@@ -116,7 +116,6 @@ function AddNewJournal() {
   };
 
   const handleCancel = () => {
-    // Handle the cancel action
   }
 
   const totalDebits = rows.reduce(

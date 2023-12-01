@@ -27,19 +27,16 @@ function AccountChart() {
     })
     .then(response => {
       if (!response.ok) {
-        // Convert non-2xx HTTP responses into errors
         return response.json().then(data => Promise.reject(new Error(data.message || 'Error occurred while adding the account.')));
       }
       return response.json();
     })
     .then(data => {
-      // Handle the success scenario
       alert('Account added successfully');
       setShowAddForm(false);
-      fetchAccounts(); // Refresh the accounts list
+      fetchAccounts(); 
     })
     .catch(error => {
-      // Handle the error scenario
       console.error('Error adding account:', error);
       alert('Error adding account');
     });

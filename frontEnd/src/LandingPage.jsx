@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import logo from '/src/logo.png'; // Update with the path to your logo
-import './style.css'; // Assuming style.css is in the src folder
+import logo from '/src/logo.png'; 
+import './style.css'; 
 
 
 function LandingPage() {

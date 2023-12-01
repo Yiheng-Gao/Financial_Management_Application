@@ -1,12 +1,12 @@
-/* AddInvoice.css - Adjustments for MainPage layout */
+
 
 .add-invoice-container {
-  margin-left: 250px; /* Same as the sidebar width */
-  padding-top: 60px; /* Same as the header height */
-  padding-left: 20px; /* Left padding for content */
-  padding-right: 20px; /* Right padding for content */
-  max-height: calc(100vh - 60px); /* Full height minus header */
-  overflow-y: auto; /* Enable vertical scrolling */
+  margin-left: 250px; 
+  padding-top: 60px; 
+  padding-left: 20px; 
+  padding-right: 20px; 
+  max-height: calc(100vh - 60px); 
+  overflow-y: auto; 
 }
 
 .add-invoice-header {
@@ -19,16 +19,15 @@
   background: #fff;
   padding: 15px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  max-height: calc(100vh - 60px - 20px); /* Full height minus header and some padding */
-  overflow-y: auto; /* Enable vertical scrolling */
+  max-height: calc(100vh - 60px - 20px);
+  overflow-y: auto; 
   padding-bottom: 50px;
 }
 
-/* Style for the table and form inputs */
+
 .add-invoice-table {
   width: 100%;
   margin-bottom: 20px;
-  /* Other table styles */
 }
 
 .add-invoice-error {
@@ -44,7 +43,6 @@
 .add-invoice-table th, .add-invoice-table td {
   padding: 8px;
   text-align: left;
-  /* Other cell styles */
 }
 
 .add-invoice-input {
@@ -52,17 +50,15 @@
   padding: 8px;
   margin-bottom: 4px;
   box-sizing: border-box;
-  /* Other input styles */
 }
 
-/* Style for buttons */
+
 .add-invoice-button {
   padding: 10px 20px;
   margin-right: 10px;
-  /* Other button styles */
 }
 
-/* Additional styles for the total amount at the bottom of the table */
+
 .total-amount {
   text-align: right;
   padding: 10px 0;
@@ -70,7 +66,7 @@
   font-weight: bold;
 }
 
-/* Styles for form actions like submit and cancel buttons */
+
 .form-actions {
   display: flex;
   justify-content: space-between;
@@ -80,7 +76,4 @@
 .form-actions button {
   padding: 10px 20px;
   margin-right: 10px;
-  /* Other button styles */
 }
-
-/* You can add additional custom styles for other elements if necessary */

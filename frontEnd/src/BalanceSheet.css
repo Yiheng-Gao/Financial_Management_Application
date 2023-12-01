@@ -14,7 +14,7 @@
 }
 .account-type-header {
   font-weight: bold;
-  background-color: #f0f0f0; /* Example styling */
+  background-color: #f0f0f0; 
 }
 
 .balance-sheet-container h1 {
@@ -40,7 +40,7 @@
   background-color: #f2f2f2;
 }
 
-/* For the header section with 'Basis' and 'As of' */
+
 .header-section {
   text-align: right;
   margin-bottom: 20px;
@@ -51,7 +51,7 @@
   margin: 5px 0;
 }
 
-/* For the company name */
+
 .company-name {
   font-size: 28px;
   font-weight: bold;
@@ -59,7 +59,7 @@
   margin: 20px 0;
 }
 
-/* For the 'Add Temporary Note' button */
+
 .add-temp-note-btn {
   display: block;
   text-align: right;

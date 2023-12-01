@@ -7,7 +7,7 @@ function Suppliers() {
   const [showAddForm, setShowAddForm] = useState(false);
 
   useEffect(() => {
-    const companyID = parseInt(localStorage.getItem('companyId'), 10); // Retrieve companyID from localStorage
+    const companyID = parseInt(localStorage.getItem('companyId'), 10);
   
     fetch(`http://localhost:8081/suppliers-page?companyID=${companyID}`)
       .then(response => response.json())

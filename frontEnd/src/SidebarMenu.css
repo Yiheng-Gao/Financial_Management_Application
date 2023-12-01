@@ -1,17 +1,17 @@
-/* Retain the basic styles for the sidebar but modify the height */
+
 .sidebar-menu {
   width: 250px;
-  height: calc(100vh - 60px); /* 100vh represents the full viewport height. 60px is assumed header height. Adjust if different. */
+  height: calc(100vh - 60px); 
   background-color: lightcyan;
   padding: 15px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
-  position: fixed; /* This ensures the sidebar stays in place */
-  top: 60px; /* Offset by the header height */
+  position: fixed; 
+  top: 60px; 
   left: 0;
-  background-image: url('/src/icon.jpg'); /* Adjust path if necessary */
-  background-size: cover; /* Cover the entire space */
-  background-position: center; /* Center the image */
-  background-repeat: no-repeat; /* Do not repeat the image */
+  background-image: url('/src/icon.jpg'); 
+  background-size: cover; 
+  background-position: center; 
+  background-repeat: no-repeat; 
   
 }
 
@@ -19,10 +19,10 @@
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 25px;
-  background-image: url('/src/icon.jpg'); /* Adjust path if necessary */
-  background-size: cover; /* Cover the entire space */
-  background-position: center; /* Center the image */
-  background-repeat: no-repeat; /* Do not repeat the image */
+  background-image: url('/src/icon.jpg'); 
+  background-size: cover;
+  background-position: center; 
+  background-repeat: no-repeat; 
 }
 
 .menu-item {
@@ -39,8 +39,8 @@
 
 .sub-menu-item {
   padding: 5px 0;
-  cursor: pointer; /* Ensures the cursor changes to a hand when hovering over the sub-menu-item */
-  transition: background-color 0.3s; /* Smooth transition for background-color change */
+  cursor: pointer; 
+  transition: background-color 0.3s;
 }
 
 .sub-menu-item:hover {

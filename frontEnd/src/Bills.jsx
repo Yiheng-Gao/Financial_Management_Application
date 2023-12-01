@@ -1,5 +1,5 @@
 import React from 'react';
-import './Invoices.css'; // You can use the same styles as ManualJournals.css if they are similar
+import './Invoices.css'; 
 
 function Bills({ bills, setAddBillPage }) {
   function formatDate(isoDateString) {
