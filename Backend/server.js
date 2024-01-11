@@ -10,8 +10,8 @@ app.use(express.json()); // Add this middleware to parse JSON bodies
 const db = mysql.createConnection({
   host: "127.0.0.1",
   user: "root",
-  password: "yg486653",
-  database: "accviewd",
+  password: "******",
+  database: "******",
 });
 
 app.get("/", (re, res) => {
